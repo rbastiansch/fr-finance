@@ -13,6 +13,7 @@ export default class AppProvider {
 
   public async ready() {
     // App is ready
+    await import('../start/apollo')
   }
 
   public async shutdown() {
