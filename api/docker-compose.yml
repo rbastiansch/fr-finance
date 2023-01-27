@@ -1,0 +1,40 @@
+version: '3.2'
+
+services:
+  fr-api:
+    image: fr-api
+    container_name: fr-api
+    restart: unless-stopped
+
+    # We specify the image for this service and where we can build that image from
+    build: .
+    depends_on:
+      - fr-db
+
+    # We can use these volumes to specify where we want our files to be accessible at.
+    # It's best to house all node modules on a separate volume
+    volumes:
+      - .:/usr/app
+    ports:
+      - '3333:3333'
+      - '4000:4000'
+      - '9229:9229'
+    networks:
+      - webnet
+  fr-db:
+    image: "postgres:13"
+    environment:
+      POSTGRES_PASSWORD: pass
+      POSTGRES_USER: user
+      POSTGRES_DB: postgres
+    volumes:
+      - fr-db:/data/postgres
+    ports:
+      - '5432:5432'
+    networks:
+      - webnet
+
+networks:
+  webnet:
+volumes:
+  fr-db:
