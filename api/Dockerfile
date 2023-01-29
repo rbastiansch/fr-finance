@@ -1,5 +1,7 @@
-# We'll use the Node slim image as a base cos it's light and nice
-FROM node:16-alpine
+FROM node:16-alpine3.17
+
+RUN apk update \
+  && apk add openssl1.1-compat
 
 WORKDIR /usr/app
 

@@ -1,0 +1,2 @@
+For mac M1 users use this command to build your docker in a linux platform and support prisma properly
+```docker buildx build --load -f Dockerfile --platform=linux/amd64 . -t prisma-linux-node-alpine-3.17-x64```
