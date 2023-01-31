@@ -1,9 +1,7 @@
 import { ApolloServer } from '@apollo/server'
 import { startStandaloneServer } from '@apollo/server/standalone'
-import { PrismaClient } from '@prisma/client'
 import { GraphQLScalarType } from 'graphql'
-
-const prisma = new PrismaClient()
+import { accounts, transaction, transactions, transactionsFilter } from 'Prisma/queries'
 
 // A schema is a collection of type definitions (hence "typeDefs")
 // that together define the "shape" of queries that are executed against
@@ -14,7 +12,13 @@ const typeDefs = `#graphql
   type Account {
     id: String
     name: String
-    ban: String
+    bank: String
+  }
+
+  type Category {
+    id: String
+    name: String
+    color: String
   }
 
   type Transaction {
@@ -25,6 +29,8 @@ const typeDefs = `#graphql
     amount: Float
     currency: String
     date: Date!
+    account: Account
+    category: Category
   }
 
   # The "Query" type is special: it lists all of the available queries that
@@ -33,6 +39,7 @@ const typeDefs = `#graphql
   type Query {
     accounts: [Account]
     transactions: [Transaction]
+    transactionsFilter(search: String): [Transaction]
     transaction(id: ID!): Transaction
   }
 `
@@ -49,16 +56,10 @@ const dateScalar = new GraphQLScalarType({
 // schema. This resolver retrieves books from the "books" array above.
 const resolvers = {
   Query: {
-    accounts: () => {
-      return prisma.account.findMany()
-    },
-    transactions: () => {
-      return prisma.transaction.findMany()
-    },
-    transaction(_parent, args) {
-      const { id } = args
-      return prisma.transaction.findUnique({ where: { id } })
-    }
+    accounts,
+    transaction,
+    transactions,
+    transactionsFilter
   },
   Date: dateScalar
 }
