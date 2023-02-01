@@ -36,12 +36,11 @@ function getParsedData() {
 const prisma = new PrismaClient()
 
 async function main() {
-  // divide by 100k to not breaks
+  // split by 100k to not breaks
   const spliters = [100000, 200000, 300000, 400000]
   let starter = 0
   for (const iterator of spliters) {
     const dataChunk = dataCsv.slice(starter, iterator)
-    console.log('chunk')
     await prisma.transaction.createMany({
       data: dataChunk
     })
