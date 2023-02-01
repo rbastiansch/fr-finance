@@ -28,6 +28,7 @@ const data = reactive({
 })
 
 watch(() => data.search, (search, prevSearch) => {
+  data.currentPage = 0
   loadTransactions(search, prevSearch)
 })
 
