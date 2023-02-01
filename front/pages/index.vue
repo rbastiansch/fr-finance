@@ -1,11 +1,14 @@
 <template>
-  <Tutorial />
+  <transactions-main />
 </template>
 
-<script lang="ts">
-import Vue from 'vue'
+<script>
+import TransactionsMain from '~/components/Transactions/TransactionsMain.vue'
 
-export default Vue.extend({
-  name: 'IndexPage',
-})
+export default {
+  components: { TransactionsMain },
+  setup() {
+    
+  },
+}
 </script>
