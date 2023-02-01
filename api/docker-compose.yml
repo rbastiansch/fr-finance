@@ -2,6 +2,7 @@ version: '3.2'
 
 services:
   fr-api:
+    platform: linux/amd64
     image: fr-api
     container_name: fr-api
     restart: unless-stopped
@@ -23,6 +24,7 @@ services:
       - webnet
   fr-db:
     image: "postgres:13"
+    container_name: fr-db
     environment:
       POSTGRES_PASSWORD: pass
       POSTGRES_USER: user
