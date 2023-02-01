@@ -13,8 +13,13 @@ export const accounts = () => {
   return prisma.account.findMany()
 }
 
-export const transactions = () => {
+export const transactions = (_parent, args) => {
+  const { page } = args
+  const take = 20
+  const skip = (page || 0) * take
   return prisma.transaction.findMany({
+    take,
+    skip,
     include: {
       account: true,
       category: true
@@ -23,8 +28,12 @@ export const transactions = () => {
 }
 
 export const transactionsFilter = (_parent, args) => {
-  const { search } = args
+  const { search, page } = args
+  const take = 20
+  const skip = (page || 0) * take
   return prisma.transaction.findMany({
+    take,
+    skip,
     where: {
       OR: [
         {

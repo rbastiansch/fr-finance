@@ -38,8 +38,8 @@ const typeDefs = `#graphql
   # case, the "books" query returns an array of zero or more Books (defined above).
   type Query {
     accounts: [Account]
-    transactions: [Transaction]
-    transactionsFilter(search: String): [Transaction]
+    transactions(page: Int): [Transaction]
+    transactionsFilter(search: String, page: Int): [Transaction]
     transaction(id: ID!): Transaction
   }
 `
