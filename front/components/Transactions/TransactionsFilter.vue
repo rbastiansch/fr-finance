@@ -12,6 +12,8 @@
 </template>
 
 <script setup>
+import { debounce } from '~/utils/debounce.utils'
+
 defineProps({
   value: {
     type: String,
@@ -21,5 +23,5 @@ defineProps({
 
 const emit = defineEmits(['input'])
 
-const input = (event) => emit('input', event.target.value)
+const input = (event) => debounce(() => emit('input', event.target.value), 500)()
 </script>

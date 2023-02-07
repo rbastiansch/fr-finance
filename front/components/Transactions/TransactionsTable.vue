@@ -50,6 +50,7 @@
 
 <script setup>
 import * as dayjs from 'dayjs'
+import { debounce } from '~/utils/debounce.utils'
 
 defineProps({
   transactions: {
@@ -75,20 +76,6 @@ const scroller = (ref) => {
 
   if (verticalScrollResult === heightElement) {
     debounce(() => emit('scroll-bottom'), 300)()
-  }
-}
-
-const debounce = (fn, delay) => {
-  let timeout
-
-  return (...args) => {
-    if (timeout) {
-      clearTimeout(timeout)
-    }
-
-    timeout = setTimeout(() => {
-      fn(...args)
-    }, delay)
   }
 }
 </script>
