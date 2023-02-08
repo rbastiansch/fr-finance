@@ -1,8 +1,14 @@
 import { PrismaClient } from '@prisma/client'
-const fs = require('fs')
-const { parse } = require('csv-parse')
+import fs from 'fs'
+import { parse } from 'csv-parse'
 
-const dataCsv: Array<any> = []
+interface AccountRow {
+  id: string
+  name: string
+  bank: string
+}
+
+const dataCsv: Array<AccountRow> = []
 function seedAccounts() {
   return new Promise((resolve, reject) => {
     fs.createReadStream('./prisma/seeds/accounts.csv')

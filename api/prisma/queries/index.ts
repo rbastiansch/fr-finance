@@ -1,11 +1,12 @@
 import { PrismaClient } from '@prisma/client'
+import { Transaction, ListTransactions } from './types'
 import dayjs, { Dayjs } from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 
 dayjs.extend(customParseFormat)
 const prisma = new PrismaClient()
 
-const formatDate = (date: string): Dayjs | undefined => {
+const formatDate = (date: string | undefined): Dayjs | undefined => {
   return dayjs(date, 'DD/MM/YYYY').isValid() ? dayjs(date, 'DD/MM/YYYY') : undefined
 }
 
@@ -13,7 +14,7 @@ export const accounts = () => {
   return prisma.account.findMany()
 }
 
-export const transactions = (_parent, args) => {
+export const transactions = (_parent: undefined, args: ListTransactions) => {
   const { page } = args
   const take = 20
   const skip = (page || 0) * take
@@ -27,7 +28,7 @@ export const transactions = (_parent, args) => {
   })
 }
 
-export const transactionsFilter = (_parent, args) => {
+export const transactionsFilter = (_parent: undefined, args: ListTransactions) => {
   const { search, page } = args
   const take = 20
   const skip = (page || 0) * take
@@ -57,7 +58,7 @@ export const transactionsFilter = (_parent, args) => {
           }
         },
         {
-          amount: !isNaN(search) ? parseFloat(search) : null
+          amount: !isNaN(Number(search)) ? parseFloat(search) : null
         },
         {
           account: {
@@ -91,7 +92,7 @@ export const transactionsFilter = (_parent, args) => {
   })
 }
 
-export const transaction = (_parent, args) => {
+export const transaction = (_parent: undefined, args: Transaction) => {
   const { id } = args
   return prisma.transaction.findUnique({
     where: { id },
