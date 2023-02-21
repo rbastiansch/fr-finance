@@ -54,3 +54,29 @@ export const getTransactionsWithFiltersRequest = async (variables: OperationVari
       }
     }`, variables)
 }
+
+export const getTransactionRequest = async (variables: OperationVariables) => {
+  return await apolloPlugin(
+    `
+    query GetTransactionById($id: ID!) {
+      transaction(id: $id) {
+        id
+        accountId
+        categoryId
+        reference
+        amount
+        currency
+        date
+        account {
+          name
+          bank
+        }
+        category {
+          name
+          color
+        }
+      }
+    }`,
+    variables
+  )
+}

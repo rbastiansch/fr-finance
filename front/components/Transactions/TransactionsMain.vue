@@ -11,13 +11,14 @@
         :transactions="data.transactions"
         :loading="data.loading"
         @scroll-bottom="scrollBottom"
+        @click-row="clickRow"
       />
     </div>
   </div>
 </template>
 
 <script setup>
-import { reactive, onMounted, watch } from 'vue'
+import { reactive, onMounted, watch, useRouter } from '@nuxtjs/composition-api'
 import { getTransactionsRequest, getTransactionsWithFiltersRequest } from '~/services/apollo'
 
 const data = reactive({
@@ -31,6 +32,8 @@ watch(() => data.search, (search, prevSearch) => {
   data.currentPage = 0
   loadTransactions(search, prevSearch)
 })
+
+const router = useRouter()
 
 const loadTransactions = (search, prevSearch) => {
   if (search === prevSearch) {
@@ -84,4 +87,6 @@ const scrollBottom = () => {
   data.currentPage = data.currentPage + 1
   loadTransactions(data.search)
 }
+
+const clickRow = (id) => router.push(`/transaction/${id}`)
 </script>

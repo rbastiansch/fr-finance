@@ -49,7 +49,7 @@
 </template>
 
 <script setup>
-import * as dayjs from 'dayjs'
+import { formatDate } from '~/utils/date.utils'
 import { debounce } from '~/utils/debounce.utils'
 
 defineProps({
@@ -64,12 +64,13 @@ const referenceFormat = (reference) => {
   return reference || 'No reference provided'
 }
 
-const formatDate = (date) => {
-  return dayjs(date).format('DD/MM/YYYY')
+const emit = defineEmits(['click-row', 'scroll-bottom'])
+const clickRow = (id) => {
+  if (!window.getSelection().toString()) {
+    emit('click-row', id)
+  }
 }
 
-const emit = defineEmits(['click-row', 'scroll-bottom'])
-const clickRow = (id) => emit('click-row', id)
 const scroller = (ref) => {
   const verticalScrollResult = ref.target.scrollHeight - ref.target.scrollTop
   const heightElement = ref.target.clientHeight
