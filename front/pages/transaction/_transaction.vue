@@ -1,8 +1,8 @@
 <template>
-  <div class="container mx-auto px-2 py-4 divide-y">
-    <h1 class="font-lg font-semibold mb-3">
-      Transaction details
-    </h1>
+  <div>
+    <common-header>
+      Transactions
+    </common-header>
     <div class="grid grid-cols-2 py-2">
       <div class="py-1">
         <b>Reference:</b> {{ data.transaction?.reference }}
@@ -12,6 +12,10 @@
       </div>
       <div class="py-1">
         <b>Category:</b> {{ data.transaction?.category?.name }}
+        <common-select
+          v-model="data.category"
+          :options="[{value: 1, text: 'value 1'}, {value: 2, text: 'value 2'}]"
+        />
       </div>
       <div class="py-1">
         <b>Date:</b> {{ formatDate(data.transaction?.date) }}
@@ -31,7 +35,8 @@ import { formatDate } from '~/utils/date.utils'
 const route = useRoute()
 
 const data = reactive({
-  transaction: null
+  transaction: null,
+  category: 1
 })
 
 onMounted(() => {

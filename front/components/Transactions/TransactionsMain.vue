@@ -1,10 +1,8 @@
 <template>
-  <div class="container mx-auto px-2 py-4 h-screen">
+  <div class="h-screen">
     <div class="h-full">
       <div class="px-1">
-        <div class="font-lg font-semibold mb-3">
-          Transactions
-        </div>
+        <common-header>Transactions</common-header>
         <transactions-filter v-model="data.search" />
       </div>
       <transactions-table
