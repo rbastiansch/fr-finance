@@ -27,12 +27,11 @@
             {{ referenceFormat(row.reference) }}
           </td>
           <td class="px-2 py-1">
-            <span
-              class="rounded px-3 py-2"
-              :style="{background: `#${row.category.color}` }"
+            <common-chip
+              :background-color="`#${row.category.color}`"
             >
               {{ row.category.name }}
-            </span>
+            </common-chip>
           </td>
           <td class="px-2 py-1">{{ formatDate(row.date) }}</td>
           <td class="px-2 py-1">

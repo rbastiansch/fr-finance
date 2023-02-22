@@ -11,11 +11,12 @@
         <b>Account:</b> {{ data.transaction?.account?.name }}
       </div>
       <div class="py-1">
-        <b>Category:</b> {{ data.transaction?.category?.name }}
-        <common-select
-          v-model="data.category"
-          :options="[{value: 1, text: 'value 1'}, {value: 2, text: 'value 2'}]"
-        />
+        <b>Category:</b>
+        <common-chip
+          :background-color="`#${data.transaction?.category?.color}`"
+        >
+          {{ data.transaction?.category?.name }}
+        </common-chip>
       </div>
       <div class="py-1">
         <b>Date:</b> {{ formatDate(data.transaction?.date) }}
@@ -35,8 +36,7 @@ import { formatDate } from '~/utils/date.utils'
 const route = useRoute()
 
 const data = reactive({
-  transaction: null,
-  category: 1
+  transaction: null
 })
 
 onMounted(() => {
@@ -48,6 +48,7 @@ const transactionId = computed(() => route.value.params?.transaction)
 const getTransaction = async () => {
   const result = await getTransactionRequest({ id: transactionId.value })
   data.transaction = result.data.transaction
+  data.category = result.data.transaction.category.name
 }
 </script>
 
