@@ -5,16 +5,23 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 })
 
-const apolloPlugin = async (queryString: string = '', variables: OperationVariables) => {
+const apolloPlugin = async (
+  queryString: string = '',
+  variables?: OperationVariables
+) => {
   return await client
     .query({
-      query: gql`${queryString}`,
-      variables
-    }).then(result => result)
+      query: gql`
+        ${queryString}
+      `,
+      variables,
+    })
+    .then((result) => result)
 }
 
 export const getTransactionsRequest = async (variables: OperationVariables) => {
-  return await apolloPlugin(`
+  return await apolloPlugin(
+    `
     query GetTransactions($page: Int) {
       transactions(page: $page) {
         id
@@ -33,11 +40,16 @@ export const getTransactionsRequest = async (variables: OperationVariables) => {
           color
         }
       }
-    }`, variables)
+    }`,
+    variables
+  )
 }
 
-export const getTransactionsWithFiltersRequest = async (variables: OperationVariables) => {
-  return await apolloPlugin(`
+export const getTransactionsWithFiltersRequest = async (
+  variables: OperationVariables
+) => {
+  return await apolloPlugin(
+    `
     query GetTransactionsFilter($search: String, $page: Int) {
       transactionsFilter(search: $search, page: $page) {
         id
@@ -52,7 +64,9 @@ export const getTransactionsWithFiltersRequest = async (variables: OperationVari
           color
         }
       }
-    }`, variables)
+    }`,
+    variables
+  )
 }
 
 export const getTransactionRequest = async (variables: OperationVariables) => {
@@ -79,4 +93,14 @@ export const getTransactionRequest = async (variables: OperationVariables) => {
     }`,
     variables
   )
+}
+
+export const getCategoriesRequest = async () => {
+  return await apolloPlugin(`query Categories {
+    categories {
+      id
+      name
+      color
+    }
+  }`)
 }

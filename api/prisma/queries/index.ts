@@ -102,3 +102,7 @@ export const transaction = (_parent: undefined, args: Transaction) => {
     }
   })
 }
+
+export const categories = () => {
+  return prisma.category.findMany()
+}

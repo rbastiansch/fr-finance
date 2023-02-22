@@ -1,7 +1,7 @@
 import { ApolloServer } from '@apollo/server'
 import { startStandaloneServer } from '@apollo/server/standalone'
 import { GraphQLScalarType } from 'graphql'
-import { accounts, transaction, transactions, transactionsFilter } from 'Prisma/queries'
+import { accounts, categories, transaction, transactions, transactionsFilter } from 'Prisma/queries'
 
 // A schema is a collection of type definitions (hence "typeDefs")
 // that together define the "shape" of queries that are executed against
@@ -38,6 +38,7 @@ const typeDefs = `#graphql
   # case, the "books" query returns an array of zero or more Books (defined above).
   type Query {
     accounts: [Account]
+    categories: [Category]
     transactions(page: Int): [Transaction]
     transactionsFilter(search: String, page: Int): [Transaction]
     transaction(id: ID!): Transaction
@@ -57,6 +58,7 @@ const dateScalar = new GraphQLScalarType({
 const resolvers = {
   Query: {
     accounts,
+    categories,
     transaction,
     transactions,
     transactionsFilter
