@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-import { Transaction, ListTransactions } from './types'
+import { Transaction, ListTransactions, UpdateTransactionCategory } from './types'
 import dayjs, { Dayjs } from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 
@@ -105,4 +105,28 @@ export const transaction = (_parent: undefined, args: Transaction) => {
 
 export const categories = () => {
   return prisma.category.findMany()
+}
+
+export const updateTransactionCategory = async (
+  _parent: undefined,
+  args: UpdateTransactionCategory
+) => {
+  const { id, name, color } = args
+
+  const category = await prisma.category.upsert({
+    where: { name },
+    update: { name, color },
+    create: { name, color }
+  })
+
+  const categoryId = category.id
+
+  return prisma.transaction.update({
+    where: {
+      id
+    },
+    data: {
+      categoryId
+    }
+  })
 }

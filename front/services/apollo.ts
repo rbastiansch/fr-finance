@@ -1,11 +1,16 @@
 import { ApolloClient, gql, InMemoryCache, OperationVariables } from '@apollo/client/core'
+import {
+  TransactionPayload,
+  ListTransactionsPayload,
+  UpdateTransactionCategoryPayload,
+} from '~/services/types'
 
 const client = new ApolloClient({
   uri: 'http://localhost:4000',
   cache: new InMemoryCache(),
 })
 
-const apolloPlugin = async (
+const apolloQuery = async (
   queryString: string = '',
   variables?: OperationVariables
 ) => {
@@ -19,8 +24,22 @@ const apolloPlugin = async (
     .then((result) => result)
 }
 
-export const getTransactionsRequest = async (variables: OperationVariables) => {
-  return await apolloPlugin(
+const apolloMutate = async (
+  queryString: string = '',
+  variables?: OperationVariables
+) => {
+  return await client
+    .mutate({
+      mutation: gql`
+        ${queryString}
+      `,
+      variables,
+    })
+    .then((result) => result)
+}
+
+export const getTransactionsRequest = async (variables: TransactionPayload) => {
+  return await apolloQuery(
     `
     query GetTransactions($page: Int) {
       transactions(page: $page) {
@@ -46,9 +65,9 @@ export const getTransactionsRequest = async (variables: OperationVariables) => {
 }
 
 export const getTransactionsWithFiltersRequest = async (
-  variables: OperationVariables
+  variables: ListTransactionsPayload
 ) => {
-  return await apolloPlugin(
+  return await apolloQuery(
     `
     query GetTransactionsFilter($search: String, $page: Int) {
       transactionsFilter(search: $search, page: $page) {
@@ -69,8 +88,8 @@ export const getTransactionsWithFiltersRequest = async (
   )
 }
 
-export const getTransactionRequest = async (variables: OperationVariables) => {
-  return await apolloPlugin(
+export const getTransactionRequest = async (variables: TransactionPayload) => {
+  return await apolloQuery(
     `
     query GetTransactionById($id: ID!) {
       transaction(id: $id) {
@@ -96,11 +115,26 @@ export const getTransactionRequest = async (variables: OperationVariables) => {
 }
 
 export const getCategoriesRequest = async () => {
-  return await apolloPlugin(`query Categories {
+  return await apolloQuery(`query Categories {
     categories {
       id
       name
       color
     }
   }`)
+}
+
+export const updateTransactionCategoryRequest = async (
+  variables: UpdateTransactionCategoryPayload
+) => {
+  return await apolloMutate(
+    `mutation UpdateTransactionCategory($id: ID!, $name: String, $color: String) {
+    updateTransactionCategory(id: $id, name: $name, color: $color) {
+      category {
+        name
+      }
+    }
+  }`,
+    variables
+  )
 }
