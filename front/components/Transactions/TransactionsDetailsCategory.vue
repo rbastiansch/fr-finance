@@ -1,5 +1,5 @@
 <template>
-  <div class="inline-block">
+  <div class="inline-flex items-center">
     <common-chip
       v-if="!data.isEditingCategory"
       :background-color="data.color"
@@ -18,7 +18,7 @@
       <input
         v-model="data.color"
         type="color"
-        class="ml-1"
+        class="TransactionsDetailsCategory__inputColor appearance-none bg-transparent rounded-md h-7 cursor-pointer ml-2"
       >
     </div>
     <button
@@ -125,3 +125,15 @@ const resetEditing = async () => {
   data.changedInput = false
 }
 </script>
+
+<style lang="scss" scoped>
+.TransactionsDetailsCategory__inputColor {
+  &::-webkit-color-swatch {
+    border-radius: 5px;
+    border: none;
+  }
+  &::-webkit-color-swatch-wrapper {
+    padding: 0;
+  }
+}
+</style>

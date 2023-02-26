@@ -13,7 +13,7 @@
           <th class="font-normal text-left p-2">Amount</th>
         </tr>
       </thead>
-      <tbody class="relative">
+      <tbody class="relative text-sm">
         <tr
           v-for="(row, index) in transactions"
           :key="index"

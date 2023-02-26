@@ -4,14 +4,16 @@
       Transactions
     </common-header>
     <div class="grid grid-cols-2 py-2">
-      <div class="py-1 h-10">
-        <b>Reference:</b> {{ data.transaction?.reference }}
+      <div class="py-1 h-20 text-sm border-b border-slate-100">
+        <h2 class="font-medium mb-1">Reference:</h2>
+        <p>{{ data.transaction?.reference }}</p>
       </div>
-      <div class="py-1 h-10">
-        <b>Account:</b> {{ data.transaction?.account?.name }}
+      <div class="py-1 h-20 text-sm border-b border-slate-100">
+        <h2 class="font-medium mb-1">Account:</h2>
+        <p>{{ data.transaction?.account?.name }}</p>
       </div>
-      <div class="py-1 h-10">
-        <b>Category:</b>
+      <div class="py-1 h-20 text-sm border-b border-slate-100">
+        <h2 class="font-medium mb-1">Category:</h2>
         <transactions-details-category
           :category="data.category"
           @save="saveCategory"
@@ -21,11 +23,16 @@
           :alert="data.alert"
         />
       </div>
-      <div class="py-1 h-10">
-        <b>Date:</b> {{ formatDate(data.transaction?.date) }}
+      <div class="py-1 h-20 text-sm border-b border-slate-100">
+        <h2 class="font-medium mb-1">Date:</h2>
+        <p>{{ formatDate(data.transaction?.date) }}</p>
       </div>
-      <div class="py-1 h-10">
-        <b>Amount:</b> {{ data.transaction?.currency }} {{ data.transaction?.amount }}
+      <div class="py-1 h-20 text-sm">
+        <h2 class="font-medium mb-1">Amount:</h2>
+        <p>
+          {{ data.transaction?.amount }}
+          <span class="text-slate-500">{{ data.transaction?.currency }}</span>
+        </p>
       </div>
     </div>
   </div>

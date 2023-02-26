@@ -3,7 +3,10 @@
     <div class="h-full">
       <div class="px-1">
         <common-header>Transactions</common-header>
-        <transactions-filter v-model="data.search" />
+        <transactions-filter
+          v-model="data.search"
+          class="mt-2 mb-5"
+        />
       </div>
       <transactions-table
         :transactions="data.transactions"
