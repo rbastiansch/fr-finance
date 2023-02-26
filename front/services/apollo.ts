@@ -137,4 +137,13 @@ export const updateTransactionCategoryRequest = async (
   }`,
     variables
   )
+    .catch(() => {
+      return {
+        error: true,
+        message: 'Failed to save category',
+      }
+    })
+    .then((data) => {
+      return data
+    })
 }

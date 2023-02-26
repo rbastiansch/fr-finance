@@ -16,6 +16,10 @@
           :category="data.category"
           @save="saveCategory"
         />
+        <common-alert
+          v-model="data.alert.show"
+          :alert="data.alert"
+        />
       </div>
       <div class="py-1 h-10">
         <b>Date:</b> {{ formatDate(data.transaction?.date) }}
@@ -37,7 +41,12 @@ const route = useRoute()
 const data = reactive({
   transaction: null,
   category: null,
-  categoryColor: null
+  categoryColor: null,
+  alert: {
+    show: false,
+    message: '',
+    borderColor: ''
+  }
 })
 
 onMounted(() => {
@@ -58,7 +67,18 @@ const saveCategory = async (category) => {
     id: transactionId.value
   }
 
-  await updateTransactionCategoryRequest(payload)
+  const result = await updateTransactionCategoryRequest(payload)
+  if (result.data) {
+    data.alert.message = 'Category saved successfully!'
+    data.alert.borderColor = 'green'
+  }
+
+  if (result.error) {
+    data.alert.message = result.message
+    data.alert.borderColor = 'red'
+  }
+
+  data.alert.show = true
 }
 </script>
 
