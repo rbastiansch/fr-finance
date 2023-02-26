@@ -10,6 +10,7 @@
       class="px-2 py-1 rounded w-40 border-slate-100 border"
       @focus="handleOptions(true)"
       @blur="handleOptions(false)"
+      @keypress="keypress"
     />
     <div
       v-show="data.showOptions"
@@ -26,6 +27,7 @@
           :value="option.value"
           role="option"
           class="cursor-pointer p-1"
+          :class="{'bg-gray-50': option.text === data.input}"
           @mousedown="clickOption(option.text)"
         >
           {{ option.text }}
@@ -80,8 +82,24 @@ const filteredOptions = computed(() => props.options.filter(option => {
   return false
 }))
 
+const inputHasEqualOption = computed(() => filteredOptions.value.find(option => option.text === data.input))
+
+const keypress = (event) => {
+  if (!data.showOptions) {
+    handleOptions(true)
+  }
+
+  if(event.key === 'Enter') {
+    handleOptions(false)
+  }
+}
+
 const handleOptions = (value) => {
   data.showOptions = value
+
+  if(!value && inputHasEqualOption.value) {
+    emit('click:option', inputHasEqualOption.value.text)
+  }
 }
 
 const clickOption = (value) => {
