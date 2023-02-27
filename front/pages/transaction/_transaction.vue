@@ -40,7 +40,7 @@
 
 <script setup>
 import { useRoute, onMounted, computed, reactive } from '@nuxtjs/composition-api'
-import { getTransactionRequest, updateTransactionCategoryRequest } from '~/services/apollo'
+import { getTransactionRequest, updateTransactionCategoryRequest } from '~/services/transaction.service'
 import { formatDate } from '~/utils/date.utils'
 
 const route = useRoute()

@@ -42,7 +42,7 @@
 
 <script setup>
 import { reactive, computed, onMounted, watch, nextTick } from '@nuxtjs/composition-api'
-import { getCategoriesRequest } from '~/services/apollo'
+import { getCategoriesRequest } from '~/services/category.service'
 
 const props = defineProps({
   category: {

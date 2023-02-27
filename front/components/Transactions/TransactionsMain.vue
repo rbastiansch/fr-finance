@@ -20,7 +20,7 @@
 
 <script setup>
 import { reactive, onMounted, watch, useRouter } from '@nuxtjs/composition-api'
-import { getTransactionsRequest, getTransactionsWithFiltersRequest } from '~/services/apollo'
+import { getTransactionsRequest } from '~/services/transaction.service'
 
 const data = reactive({
   search: '',
@@ -42,44 +42,22 @@ const loadTransactions = (search, prevSearch) => {
     return
   }
 
-  if(search) {
-    getTransactionsFilter(search)
-
-    return
-  }
-
-  getTransactions()
+  getTransactions(search)
 }
 
 onMounted(() => {
   getTransactions()
 })
 
-const getTransactions = async () => {
+const getTransactions = async (search) => {
   data.loading = true
   const { currentPage } = data
-  const result = await getTransactionsRequest({ page: currentPage })
+  const result = await getTransactionsRequest({ search, page: currentPage })
 
-  if (currentPage) {
-    data.transactions = [...data.transactions, ...result.data.transactions]
-  } else {
-    data.transactions = result.data.transactions
-  }
-
-  data.loading = false
-}
-
-const getTransactionsFilter = async (search) => {
-  data.loading = true
-  const { currentPage } = data
-
-  const result = await getTransactionsWithFiltersRequest({ search, page: currentPage })
-
-  if (currentPage) {
-    data.transactions = [...data.transactions, ...result.data.transactionsFilter]
-  } else {
-    data.transactions = result.data.transactionsFilter
-  }
+  data.transactions = [
+    ...(currentPage ? data.transactions : []),
+    ...result.data.transactions
+  ]
 
   data.loading = false
 }

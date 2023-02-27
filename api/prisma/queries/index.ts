@@ -10,31 +10,12 @@ const formatDate = (date: string | undefined): Dayjs | undefined => {
   return dayjs(date, 'DD/MM/YYYY').isValid() ? dayjs(date, 'DD/MM/YYYY') : undefined
 }
 
-export const accounts = () => {
-  return prisma.account.findMany()
-}
-
 export const transactions = (_parent: undefined, args: ListTransactions) => {
-  const { page } = args
-  const take = 20
-  const skip = (page || 0) * take
-  return prisma.transaction.findMany({
-    take,
-    skip,
-    include: {
-      account: true,
-      category: true
-    }
-  })
-}
-
-export const transactionsFilter = (_parent: undefined, args: ListTransactions) => {
   const { search, page } = args
   const take = 20
   const skip = (page || 0) * take
-  return prisma.transaction.findMany({
-    take,
-    skip,
+
+  const filterWhereClause = {
     where: {
       OR: [
         {
@@ -84,7 +65,13 @@ export const transactionsFilter = (_parent: undefined, args: ListTransactions) =
           }
         }
       ]
-    },
+    }
+  }
+
+  return prisma.transaction.findMany({
+    take,
+    skip,
+    ...(search && filterWhereClause),
     include: {
       account: true,
       category: true
