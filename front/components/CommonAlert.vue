@@ -1,6 +1,6 @@
 <template>
   <div
-    class="absolute left-2 -bottom-12 py-2 px-4 rounded-md border-solid border-2 transition duration-300 ease-out"
+    class="absolute left-2 -bottom-12 py-2 px-4 bg-white rounded-md border-solid border-2 transition duration-300 ease-out"
     :class="customClasses"
   >
     <slot>
