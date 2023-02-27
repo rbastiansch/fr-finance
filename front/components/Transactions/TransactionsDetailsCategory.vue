@@ -109,6 +109,8 @@ const emitSaveCategory = () => {
     name,
     color: color ? color.replace('#', '') : ''
   })
+
+  data.isEditingCategory = false
 }
 
 const updateCategoryNameAndColor = (name, color) => {

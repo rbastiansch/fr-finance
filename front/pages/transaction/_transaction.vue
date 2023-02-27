@@ -78,6 +78,9 @@ const saveCategory = async (category) => {
   if (result.data) {
     data.alert.message = 'Category saved successfully!'
     data.alert.borderColor = 'green'
+    data.category = {
+      ...category
+    }
   }
 
   if (result.error) {
