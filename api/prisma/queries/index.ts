@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, Prisma } from '@prisma/client'
 import { Transaction, ListTransactions, UpdateTransactionCategory } from './types'
 import dayjs, { Dayjs } from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
@@ -20,12 +20,14 @@ export const transactions = (_parent: undefined, args: ListTransactions) => {
       OR: [
         {
           reference: {
-            contains: search
+            contains: search,
+            mode: Prisma.QueryMode.insensitive
           }
         },
         {
           currency: {
-            contains: search
+            contains: search,
+            mode: Prisma.QueryMode.insensitive
           }
         },
         {
@@ -46,12 +48,14 @@ export const transactions = (_parent: undefined, args: ListTransactions) => {
             OR: [
               {
                 name: {
-                  contains: search
+                  contains: search,
+                  mode: Prisma.QueryMode.insensitive
                 }
               },
               {
                 bank: {
-                  contains: search
+                  contains: search,
+                  mode: Prisma.QueryMode.insensitive
                 }
               }
             ]
@@ -60,7 +64,8 @@ export const transactions = (_parent: undefined, args: ListTransactions) => {
         {
           category: {
             name: {
-              contains: search
+              contains: search,
+              mode: Prisma.QueryMode.insensitive
             }
           }
         }
