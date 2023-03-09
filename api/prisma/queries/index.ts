@@ -1,5 +1,6 @@
 import { PrismaClient, Prisma } from '@prisma/client'
 import { Transaction, ListTransactions, UpdateTransactionCategory } from './types'
+import { parseAmount } from 'Utils/number.utils'
 import dayjs, { Dayjs } from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 
@@ -41,7 +42,7 @@ export const transactions = (_parent: undefined, args: ListTransactions) => {
           }
         },
         {
-          amount: !isNaN(Number(search)) ? parseFloat(search) : null
+          amount: parseAmount(search)
         },
         {
           account: {

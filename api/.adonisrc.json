@@ -11,7 +11,8 @@
     "Config": "config",
     "Database": "database",
     "Contracts": "contracts",
-    "Prisma": "prisma"
+    "Prisma": "prisma",
+    "Utils": "utils"
   },
   "preloads": ["./start/routes", "./start/kernel"],
   "providers": ["./providers/AppProvider", "@adonisjs/core"],
