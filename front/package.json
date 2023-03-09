@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.7.5",
+    "@nuxtjs/composition-api": "^0.33.1",
     "core-js": "^3.25.3",
     "dayjs": "^1.11.7",
     "graphql": "^16.6.0",

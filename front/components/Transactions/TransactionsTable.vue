@@ -13,7 +13,7 @@
           <th class="font-normal text-left p-2">Amount</th>
         </tr>
       </thead>
-      <tbody class="relative">
+      <tbody class="relative text-sm">
         <tr
           v-for="(row, index) in transactions"
           :key="index"
@@ -27,16 +27,15 @@
             {{ referenceFormat(row.reference) }}
           </td>
           <td class="px-2 py-1">
-            <span
-              class="rounded px-3 py-2"
-              :style="{background: `#${row.category.color}` }"
+            <common-chip
+              :background-color="`#${row.category.color}`"
             >
               {{ row.category.name }}
-            </span>
+            </common-chip>
           </td>
           <td class="px-2 py-1">{{ formatDate(row.date) }}</td>
           <td class="px-2 py-1">
-            {{ row.amount }}
+            {{ addDecimal(row.amount) }}
             <span class="text-slate-500">
               {{ row.currency }}
             </span>
@@ -49,7 +48,9 @@
 </template>
 
 <script setup>
-import * as dayjs from 'dayjs'
+import { formatDate } from '~/utils/date.utils'
+import { addDecimal } from '~/utils/number.utils'
+import { debounce } from '~/utils/debounce.utils'
 
 defineProps({
   transactions: {
@@ -63,32 +64,19 @@ const referenceFormat = (reference) => {
   return reference || 'No reference provided'
 }
 
-const formatDate = (date) => {
-  return dayjs(date).format('DD/MM/YYYY')
+const emit = defineEmits(['click-row', 'scroll-bottom'])
+const clickRow = (id) => {
+  if (!window.getSelection().toString()) {
+    emit('click-row', id)
+  }
 }
 
-const emit = defineEmits(['click-row', 'scroll-bottom'])
-const clickRow = (id) => emit('click-row', id)
 const scroller = (ref) => {
   const verticalScrollResult = ref.target.scrollHeight - ref.target.scrollTop
   const heightElement = ref.target.clientHeight
 
   if (verticalScrollResult === heightElement) {
     debounce(() => emit('scroll-bottom'), 300)()
-  }
-}
-
-const debounce = (fn, delay) => {
-  let timeout
-
-  return (...args) => {
-    if (timeout) {
-      clearTimeout(timeout)
-    }
-
-    timeout = setTimeout(() => {
-      fn(...args)
-    }, delay)
   }
 }
 </script>

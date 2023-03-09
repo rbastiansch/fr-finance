@@ -1,75 +1,52 @@
-import { PrismaClient } from '@prisma/client'
-import dayjs, { Dayjs } from 'dayjs'
-import customParseFormat from 'dayjs/plugin/customParseFormat'
+import { PrismaClient, Prisma } from '@prisma/client'
+import { Transaction, ListTransactions, UpdateTransactionCategory } from './types'
+import { parseAmount } from 'Utils/number.utils'
+import { dayOnItsFirstSecond, dayOnItsLastSecond } from 'Utils/date.utils'
 
-dayjs.extend(customParseFormat)
 const prisma = new PrismaClient()
 
-const formatDate = (date: string): Dayjs | undefined => {
-  return dayjs(date, 'DD/MM/YYYY').isValid() ? dayjs(date, 'DD/MM/YYYY') : undefined
-}
-
-export const accounts = () => {
-  return prisma.account.findMany()
-}
-
-export const transactions = (_parent, args) => {
-  const { page } = args
-  const take = 20
-  const skip = (page || 0) * take
-  return prisma.transaction.findMany({
-    take,
-    skip,
-    include: {
-      account: true,
-      category: true
-    }
-  })
-}
-
-export const transactionsFilter = (_parent, args) => {
+export const transactions = (_parent: undefined, args: ListTransactions) => {
   const { search, page } = args
   const take = 20
   const skip = (page || 0) * take
-  return prisma.transaction.findMany({
-    take,
-    skip,
+
+  const filterWhereClause = {
     where: {
       OR: [
         {
           reference: {
-            contains: search
+            contains: search,
+            mode: Prisma.QueryMode.insensitive
           }
         },
         {
           currency: {
-            contains: search
+            contains: search,
+            mode: Prisma.QueryMode.insensitive
           }
         },
         {
           date: {
-            gte: formatDate(search)?.set('hour', 0).set('minute', 0).set('second', 0).toISOString(),
-            lte: formatDate(search)
-              ?.set('hour', 23)
-              .set('minute', 59)
-              .set('second', 59)
-              .toISOString()
+            gte: dayOnItsFirstSecond(search),
+            lte: dayOnItsLastSecond(search)
           }
         },
         {
-          amount: !isNaN(search) ? parseFloat(search) : null
+          amount: parseAmount(search)
         },
         {
           account: {
             OR: [
               {
                 name: {
-                  contains: search
+                  contains: search,
+                  mode: Prisma.QueryMode.insensitive
                 }
               },
               {
                 bank: {
-                  contains: search
+                  contains: search,
+                  mode: Prisma.QueryMode.insensitive
                 }
               }
             ]
@@ -78,12 +55,19 @@ export const transactionsFilter = (_parent, args) => {
         {
           category: {
             name: {
-              contains: search
+              contains: search,
+              mode: Prisma.QueryMode.insensitive
             }
           }
         }
       ]
-    },
+    }
+  }
+
+  return prisma.transaction.findMany({
+    take,
+    skip,
+    ...(search && filterWhereClause),
     include: {
       account: true,
       category: true
@@ -91,13 +75,41 @@ export const transactionsFilter = (_parent, args) => {
   })
 }
 
-export const transaction = (_parent, args) => {
+export const transaction = (_parent: undefined, args: Transaction) => {
   const { id } = args
   return prisma.transaction.findUnique({
     where: { id },
     include: {
       account: true,
       category: true
+    }
+  })
+}
+
+export const categories = () => {
+  return prisma.category.findMany()
+}
+
+export const updateTransactionCategory = async (
+  _parent: undefined,
+  args: UpdateTransactionCategory
+) => {
+  const { id, name, color } = args
+
+  const category = await prisma.category.upsert({
+    where: { name },
+    update: { name, color },
+    create: { name, color }
+  })
+
+  const categoryId = category.id
+
+  return prisma.transaction.update({
+    where: {
+      id
+    },
+    data: {
+      categoryId
     }
   })
 }

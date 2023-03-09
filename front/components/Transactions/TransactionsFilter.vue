@@ -1,9 +1,10 @@
 <template>
   <div>
-    <div class="text-slate-500">Search</div>
+    <label hidden for="search-field">Search by bank, account, reference, category, date, amount, currency</label>
     <input
+      id="search-field"
       type="text"
-      class="w-full placeholder-shown:border-gray-500 border py-1 px-2"
+      class="w-full border border-solid placeholder-shown:border-slate-200 placeholder:text-slate-400 text-sm rounded py-1 px-2"
       placeholder="Search by bank, account, reference, category, date, amount, currency"
       :value="value"
       @input="input"
@@ -12,6 +13,8 @@
 </template>
 
 <script setup>
+import { debounce } from '~/utils/debounce.utils'
+
 defineProps({
   value: {
     type: String,
@@ -21,5 +24,5 @@ defineProps({
 
 const emit = defineEmits(['input'])
 
-const input = (event) => emit('input', event.target.value)
+const input = (event) => debounce(() => emit('input', event.target.value), 500)()
 </script>
