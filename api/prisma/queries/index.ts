@@ -1,15 +1,9 @@
 import { PrismaClient, Prisma } from '@prisma/client'
 import { Transaction, ListTransactions, UpdateTransactionCategory } from './types'
 import { parseAmount } from 'Utils/number.utils'
-import dayjs, { Dayjs } from 'dayjs'
-import customParseFormat from 'dayjs/plugin/customParseFormat'
+import { dayOnItsFirstSecond, dayOnItsLastSecond } from 'Utils/date.utils'
 
-dayjs.extend(customParseFormat)
 const prisma = new PrismaClient()
-
-const formatDate = (date: string | undefined): Dayjs | undefined => {
-  return dayjs(date, 'DD/MM/YYYY').isValid() ? dayjs(date, 'DD/MM/YYYY') : undefined
-}
 
 export const transactions = (_parent: undefined, args: ListTransactions) => {
   const { search, page } = args
@@ -33,12 +27,8 @@ export const transactions = (_parent: undefined, args: ListTransactions) => {
         },
         {
           date: {
-            gte: formatDate(search)?.set('hour', 0).set('minute', 0).set('second', 0).toISOString(),
-            lte: formatDate(search)
-              ?.set('hour', 23)
-              .set('minute', 59)
-              .set('second', 59)
-              .toISOString()
+            gte: dayOnItsFirstSecond(search),
+            lte: dayOnItsLastSecond(search)
           }
         },
         {
