@@ -46,3 +46,25 @@ describe('CommonAlert', () => {
     expect(container.querySelector('.border-red-500')).toBeInTheDocument()
   })
 })
+
+describe('CommonAlert with fake time', () => {
+  beforeAll(() => {
+    vi.useFakeTimers()
+  })
+
+  afterAll(() => {
+    vi.restoreAllMocks()
+  })
+
+  it('emits input false after 5 seconds(time defined inside component)', async () => {
+    const { emitted } = render(CommonAlert, {
+      props: {
+        value: true,
+      },
+    })
+
+    await vi.advanceTimersByTimeAsync(5000)
+
+    expect(emitted().input).toEqual([[false]])
+  })
+})

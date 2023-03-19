@@ -16,6 +16,10 @@ const props = defineProps({
   alert: {
     type: Object,
     default: () => ({})
+  },
+  millisecondsToClose: {
+    type: Number,
+    default: 5000
   }
 })
 
@@ -40,16 +44,18 @@ watch(() => props.value, (value) => {
   immediate: true
 })
 
-watch(() => data.show, (value) => {
-  if (value) {
-    timerToHide()
-  }
-})
-
 const timerToHide = () => {
   setTimeout(() => {
     data.show = false
     emit('input', false)
-  }, 5000)
+  }, props.millisecondsToClose)
 }
+
+watch(() => data.show, (value) => {
+  if (value) {
+    timerToHide()
+  }
+}, {
+  immediate: true
+})
 </script>
