@@ -15,7 +15,7 @@ const props = defineProps({
   value: Boolean,
   alert: {
     type: Object,
-    default: () => {}
+    default: () => ({})
   }
 })
 
