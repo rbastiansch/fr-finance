@@ -67,7 +67,7 @@ const scroller = (ref) => {
   const heightElement = ref.target.clientHeight
 
   if (verticalScrollResult === heightElement) {
-    debounce(() => emit('scroll-bottom'), 300)()
+    debounce(() => emit('scroll-bottom'), 300)();
   }
 }
 </script>
