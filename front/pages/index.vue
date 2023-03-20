@@ -7,8 +7,6 @@ import TransactionsMain from '~/components/Transactions/TransactionsMain.vue'
 
 export default {
   components: { TransactionsMain },
-  setup() {
-    
-  },
+  setup() {}
 }
 </script>

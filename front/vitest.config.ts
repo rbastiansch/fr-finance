@@ -1,7 +1,7 @@
 /// <reference types="vitest" />
 import path from 'path'
 import { defineConfig } from 'vitest/config'
-import vue from '@vitejs/plugin-vue2'
+import vue from '@vitejs/plugin-vue'
 
 export default defineConfig({
   plugins: [vue()],
@@ -9,12 +9,15 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     alias: {
-      '~': path.resolve(__dirname, './'),
+      '~': path.resolve(__dirname, './')
     },
     setupFiles: './test/setup.ts',
     coverage: {
       all: true,
-      exclude: ['.nuxt', 'dist', '*.js', '*.ts'],
+      exclude: ['.nuxt', 'dist', '*.js', '*.ts']
     },
-  },
+    typecheck: {
+      tsconfig: './test/tsconfig.json'
+    }
+  }
 })
