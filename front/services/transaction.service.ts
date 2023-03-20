@@ -2,12 +2,10 @@ import { apolloQuery, apolloMutate } from '~/services/apollo'
 import {
   TransactionPayload,
   ListTransactionsPayload,
-  UpdateTransactionCategoryPayload,
+  UpdateTransactionCategoryPayload
 } from '~/services/types'
 
-export const getTransactionsRequest = async (
-  variables: ListTransactionsPayload
-) => {
+export const getTransactionsRequest = async (variables: ListTransactionsPayload) => {
   return await apolloQuery(
     `
     query GetTransactions($search: String, $page: Int) {
@@ -75,7 +73,7 @@ export const updateTransactionCategoryRequest = async (
     .catch(() => {
       return {
         error: true,
-        message: 'Failed to save category',
+        message: 'Failed to save category'
       }
     })
     .then((data) => {

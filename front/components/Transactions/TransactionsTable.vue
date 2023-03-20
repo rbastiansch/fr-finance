@@ -1,9 +1,5 @@
 <template>
-  <div
-    ref="scroll"
-    class="transactionsTable overflow-y-auto"
-    @scroll="scroller"
-  >
+  <div ref="scroll" class="transactionsTable overflow-y-auto" @scroll="scroller">
     <table class="table-auto w-full">
       <thead>
         <tr class="border-b py-4">
@@ -20,16 +16,11 @@
           class="border-b h-14 cursor-pointer"
           @click="clickRow(row.id)"
         >
-          <td
-            class="px-2 py-1"
-            :class="{ 'text-slate-500': !row.reference }"
-          >
+          <td class="px-2 py-1" :class="{ 'text-slate-500': !row.reference }">
             {{ referenceFormat(row.reference) }}
           </td>
           <td class="px-2 py-1">
-            <common-chip
-              :background-color="`#${row.category.color}`"
-            >
+            <common-chip :background-color="`#${row.category.color}`">
               {{ row.category.name }}
             </common-chip>
           </td>
@@ -55,7 +46,7 @@ import { debounce } from '~/utils/debounce.utils'
 defineProps({
   transactions: {
     type: Array,
-    default: () => ([])
+    default: () => []
   },
   loading: Boolean
 })

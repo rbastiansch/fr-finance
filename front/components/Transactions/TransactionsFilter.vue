@@ -1,28 +1,38 @@
 <template>
   <div>
-    <label hidden for="search-field">Search by bank, account, reference, category, date, amount, currency</label>
+    <label hidden for="search-field">
+      Search by bank, account, reference, category, date, amount, currency
+    </label>
     <input
       id="search-field"
+      v-model="data.search"
       type="text"
       class="w-full border border-solid placeholder-shown:border-slate-200 placeholder:text-slate-400 text-sm rounded py-1 px-2"
       placeholder="Search by bank, account, reference, category, date, amount, currency"
-      :value="value"
-      @input="input"
-    >
+    />
   </div>
 </template>
 
 <script setup>
+import { reactive, watch } from 'vue'
 import { debounce } from '~/utils/debounce.utils'
 
-defineProps({
-  value: {
-    type: String,
-    default: ''
-  }
+const data = reactive({
+  search: ''
 })
 
-const emit = defineEmits(['input'])
+watch(
+  () => data.search,
+  (search, prevSearch) => {
+    if (search === prevSearch) {
+      return
+    }
 
-const input = (event) => debounce(() => emit('input', event.target.value), 500)()
+    input(search)
+  }
+)
+
+const emit = defineEmits(['update:search'])
+
+const input = (search) => debounce(() => emit('update:search', search), 1000)()
 </script>
