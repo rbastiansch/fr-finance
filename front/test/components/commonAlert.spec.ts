@@ -5,8 +5,8 @@ describe('CommonAlert', () => {
   it('render component with slot', () => {
     const { getByText } = render(CommonAlert, {
       slots: {
-        default: '<p>default slot content</p>',
-      },
+        default: '<p>default slot content</p>'
+      }
     })
 
     expect(getByText('default slot content')).toBeInTheDocument()
@@ -14,11 +14,11 @@ describe('CommonAlert', () => {
 
   it('render component with alert message', () => {
     const { getByText } = render(CommonAlert, {
-      propsData: {
+      props: {
         alert: {
-          message: 'props alert message',
-        },
-      },
+          message: 'props alert message'
+        }
+      }
     })
 
     expect(getByText('props alert message')).toBeInTheDocument()
@@ -26,9 +26,9 @@ describe('CommonAlert', () => {
 
   it('render component with translation class', () => {
     const { container } = render(CommonAlert, {
-      propsData: {
-        value: true,
-      },
+      props: {
+        value: true
+      }
     })
 
     expect(container.querySelector('.-translate-y-14')).toBeInTheDocument()
@@ -36,11 +36,11 @@ describe('CommonAlert', () => {
 
   it('render component with border color class', () => {
     const { container } = render(CommonAlert, {
-      propsData: {
+      props: {
         alert: {
-          borderColor: 'red',
-        },
-      },
+          borderColor: 'red'
+        }
+      }
     })
 
     expect(container.querySelector('.border-red-500')).toBeInTheDocument()
@@ -59,8 +59,8 @@ describe('CommonAlert with fake time', () => {
   it('emits input false after 5 seconds(time defined inside component)', async () => {
     const { emitted } = render(CommonAlert, {
       props: {
-        value: true,
-      },
+        value: true
+      }
     })
 
     await vi.advanceTimersByTimeAsync(5000)

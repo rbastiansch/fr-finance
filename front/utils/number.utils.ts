@@ -5,7 +5,7 @@ export const addDecimal = (amount: string): string => {
 
   const options = {
     style: 'decimal',
-    minimumFractionDigits: 2,
+    minimumFractionDigits: 2
   }
 
   return new Intl.NumberFormat('en-US', options).format(parseInt(amount))

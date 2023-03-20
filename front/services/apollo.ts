@@ -1,39 +1,28 @@
-import {
-  ApolloClient,
-  gql,
-  InMemoryCache,
-  OperationVariables,
-} from '@apollo/client/core'
+import { ApolloClient, gql, InMemoryCache, OperationVariables } from '@apollo/client/core'
 
 const client = new ApolloClient({
   uri: 'http://localhost:4000',
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache()
 })
 
-export const apolloQuery = async (
-  queryString: string = '',
-  variables?: OperationVariables
-) => {
+export const apolloQuery = async (queryString = '', variables?: OperationVariables) => {
   return await client
     .query({
       query: gql`
         ${queryString}
       `,
-      variables,
+      variables
     })
     .then((result) => result)
 }
 
-export const apolloMutate = async (
-  queryString: string = '',
-  variables?: OperationVariables
-) => {
+export const apolloMutate = async (queryString = '', variables?: OperationVariables) => {
   return await client
     .mutate({
       mutation: gql`
         ${queryString}
       `,
-      variables,
+      variables
     })
     .then((result) => result)
 }

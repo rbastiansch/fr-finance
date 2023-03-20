@@ -1,15 +1,9 @@
 <template>
   <div class="inline-flex items-center">
-    <common-chip
-      v-if="!data.isEditingCategory"
-      :background-color="data.color"
-    >
+    <common-chip v-if="!data.isEditingCategory" :background-color="data.color">
       {{ data.name }}
     </common-chip>
-    <div
-      v-else
-      class="inline-flex items-center"
-    >
+    <div v-else class="inline-flex items-center">
       <common-combobox
         v-model="data.name"
         :options="categoriesOptions"
@@ -19,16 +13,13 @@
         v-model="data.color"
         type="color"
         class="TransactionsDetailsCategory__inputColor appearance-none bg-transparent rounded-md h-7 cursor-pointer ml-2"
-      >
+      />
     </div>
-    <button
-      class="p-1 ml-2 text-slate-500"
-      @click="toggleCategoryEditing"
-    >
+    <button class="p-1 ml-2 text-slate-500" @click="toggleCategoryEditing">
       <img
         :src="data.isEditingCategory ? '/images/x-circle.svg' : '/images/pencil-square.svg'"
         :alt="data.isEditingCategory ? 'close' : 'edit'"
-      >
+      />
     </button>
     <button
       v-if="data.isEditingCategory && data.changedInput"
@@ -41,7 +32,7 @@
 </template>
 
 <script setup>
-import { reactive, computed, onMounted, watch, nextTick } from '@nuxtjs/composition-api'
+import { reactive, computed, onMounted, watch, nextTick } from 'vue'
 import { getCategoriesRequest } from '~/services/category.service'
 
 const props = defineProps({
@@ -65,25 +56,36 @@ onMounted(() => {
   getCategories()
 })
 
-watch(() => props.category, (value) => {
-  const { name, color } = value
+watch(
+  () => props.category,
+  (value) => {
+    const { name, color } = value
 
-  updateCategoryNameAndColor(name, color)
-})
-
-watch(() => data.name, (value, oldValue) => {
-  if (value && oldValue) {
-    data.changedInput = true
+    updateCategoryNameAndColor(name, color)
   }
-})
+)
 
-watch(() => data.color, (value, oldValue) => {
-  if (value && oldValue) {
-    data.changedInput = true
+watch(
+  () => data.name,
+  (value, oldValue) => {
+    if (value && oldValue) {
+      data.changedInput = true
+    }
   }
-})
+)
 
-const categoriesOptions = computed(() => data.categories?.map(category => ({ text: category.name, value: category.id })))
+watch(
+  () => data.color,
+  (value, oldValue) => {
+    if (value && oldValue) {
+      data.changedInput = true
+    }
+  }
+)
+
+const categoriesOptions = computed(() =>
+  data.categories?.map((category) => ({ text: category.name, value: category.id }))
+)
 
 const getCategories = async () => {
   const result = await getCategoriesRequest()
@@ -98,7 +100,7 @@ const toggleCategoryEditing = () => {
 }
 
 const setCategory = (value) => {
-  const { color } = data.categories.find(category => category.name === value)
+  const { color } = data.categories.find((category) => category.name === value)
   updateCategoryNameAndColor(value, color)
 }
 

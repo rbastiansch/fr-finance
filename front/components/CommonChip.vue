@@ -1,8 +1,5 @@
 <template>
-  <span
-    class="rounded px-3 py-1"
-    :style="{backgroundColor: props.backgroundColor }"
-  >
+  <span class="rounded px-3 py-1" :style="{ backgroundColor: props.backgroundColor }">
     <slot />
   </span>
 </template>

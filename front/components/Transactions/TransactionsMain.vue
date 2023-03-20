@@ -3,10 +3,7 @@
     <div class="h-full">
       <div class="px-1">
         <common-header>Transactions</common-header>
-        <transactions-filter
-          v-model="data.search"
-          class="mt-2 mb-5"
-        />
+        <transactions-filter class="mt-2 mb-5" @update:search="updateSearch" />
       </div>
       <transactions-table
         :transactions="data.transactions"
@@ -19,7 +16,7 @@
 </template>
 
 <script setup>
-import { reactive, onMounted, watch, useRouter } from '@nuxtjs/composition-api'
+import { reactive, onMounted } from 'vue'
 import { getTransactionsRequest } from '~/services/transaction.service'
 
 const data = reactive({
@@ -29,16 +26,15 @@ const data = reactive({
   currentPage: 0
 })
 
-watch(() => data.search, (search, prevSearch) => {
+const updateSearch = (search) => {
   data.currentPage = 0
-  loadTransactions(search, prevSearch)
-})
+  loadTransactions(search)
+}
 
 const router = useRouter()
 
 const loadTransactions = (search, prevSearch) => {
   if (search === prevSearch) {
-
     return
   }
 
@@ -54,10 +50,7 @@ const getTransactions = async (search) => {
   const { currentPage } = data
   const result = await getTransactionsRequest({ search, page: currentPage })
 
-  data.transactions = [
-    ...(currentPage ? data.transactions : []),
-    ...result.data.transactions
-  ]
+  data.transactions = [...(currentPage ? data.transactions : []), ...result.data.transactions]
 
   data.loading = false
 }

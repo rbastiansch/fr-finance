@@ -1,8 +1,6 @@
 <template>
   <div>
-    <common-header>
-      Transactions
-    </common-header>
+    <common-header> Transactions </common-header>
     <div class="grid grid-cols-2 py-2">
       <div class="py-1 h-20 text-sm border-b border-slate-100">
         <h2 class="font-medium mb-1">Reference:</h2>
@@ -14,14 +12,8 @@
       </div>
       <div class="py-1 h-20 text-sm border-b border-slate-100">
         <h2 class="font-medium mb-1">Category:</h2>
-        <transactions-details-category
-          :category="data.category"
-          @save="saveCategory"
-        />
-        <common-alert
-          v-model="data.alert.show"
-          :alert="data.alert"
-        />
+        <transactions-details-category :category="data.category" @save="saveCategory" />
+        <common-alert v-model="data.alert.show" :alert="data.alert" />
       </div>
       <div class="py-1 h-20 text-sm border-b border-slate-100">
         <h2 class="font-medium mb-1">Date:</h2>
@@ -39,8 +31,11 @@
 </template>
 
 <script setup>
-import { useRoute, onMounted, computed, reactive } from '@nuxtjs/composition-api'
-import { getTransactionRequest, updateTransactionCategoryRequest } from '~/services/transaction.service'
+import { onMounted, computed, reactive } from 'vue'
+import {
+  getTransactionRequest,
+  updateTransactionCategoryRequest
+} from '~/services/transaction.service'
 import { formatDate } from '~/utils/date.utils'
 
 const route = useRoute()
@@ -60,7 +55,7 @@ onMounted(() => {
   getTransaction()
 })
 
-const transactionId = computed(() => route.value.params?.transaction)
+const transactionId = computed(() => route.params?.transaction)
 
 const getTransaction = async () => {
   const result = await getTransactionRequest({ id: transactionId.value })

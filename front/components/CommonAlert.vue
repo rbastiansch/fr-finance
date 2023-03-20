@@ -6,13 +6,13 @@
     <slot>
       {{ props.alert.message }}
     </slot>
-  </div>  
+  </div>
 </template>
 
 <script setup>
-import { reactive, watch, computed } from '@nuxtjs/composition-api'
+import { reactive, watch, computed } from 'vue'
 const props = defineProps({
-  value: Boolean,
+  modelValue: Boolean,
   alert: {
     type: Object,
     default: () => ({})
@@ -23,7 +23,7 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['input'])
+const emit = defineEmits(['update:modelValue'])
 
 const data = reactive({
   show: false
@@ -38,24 +38,32 @@ const customClasses = computed(() => {
   }
 })
 
-watch(() => props.value, (value) => {
-  data.show = value
-}, {
-  immediate: true
-})
+watch(
+  () => props.modelValue,
+  (value) => {
+    data.show = value
+  },
+  {
+    immediate: true
+  }
+)
 
 const timerToHide = () => {
   setTimeout(() => {
     data.show = false
-    emit('input', false)
+    emit('update:modelValue', false)
   }, props.millisecondsToClose)
 }
 
-watch(() => data.show, (value) => {
-  if (value) {
-    timerToHide()
+watch(
+  () => data.show,
+  (value) => {
+    if (value) {
+      timerToHide()
+    }
+  },
+  {
+    immediate: true
   }
-}, {
-  immediate: true
-})
+)
 </script>
