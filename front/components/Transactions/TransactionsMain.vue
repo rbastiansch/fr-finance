@@ -1,17 +1,15 @@
 <template>
-  <div class="h-screen">
-    <div class="h-full">
-      <div class="px-1">
-        <common-header>Transactions</common-header>
-        <transactions-filter class="mt-2 mb-5" @update:search="updateSearch" />
-      </div>
-      <transactions-table
-        :transactions="data.transactions"
-        :loading="data.loading"
-        @scroll-bottom="scrollBottom"
-        @click-row="clickRow"
-      />
+  <div class="h-full">
+    <div class="px-1">
+      <common-header>Transactions</common-header>
+      <transactions-filter class="mt-2 mb-5" @update:search="updateSearch" />
     </div>
+    <transactions-table
+      :transactions="data.transactions"
+      :loading="data.loading"
+      @scroll-bottom="scrollBottom"
+      @click-row="clickRow"
+    />
   </div>
 </template>
 

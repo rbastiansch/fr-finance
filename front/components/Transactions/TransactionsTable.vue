@@ -74,6 +74,6 @@ const scroller = (ref) => {
 
 <style lang="scss" scoped>
 .transactionsTable {
-  height: calc(100vh - 130px);
+  height: calc(100vh - 220px);
 }
 </style>
