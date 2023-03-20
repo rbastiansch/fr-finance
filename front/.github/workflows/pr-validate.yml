@@ -1,0 +1,77 @@
+name: pr-validate
+on:
+  pull_request:
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Node.js environment to ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Caching node_modules
+        id: cache-modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: $${{ matrix.node-version }}-${{ runner.OS }}-build-${{ hashFiles('package.json', 'yarn.lock') }}
+      - name: Installing dependencies
+        run: yarn install
+      - name: Linting
+        run: yarn lint
+  test:
+    name: Test
+    needs: [lint]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Node.js environment to ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Caching node_modules
+        id: cache-modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: $${{ matrix.node-version }}-${{ runner.OS }}-build-${{ hashFiles('package.json', 'yarn.lock') }}
+      - name: Installing dependencies
+        if: steps.cache-modules.outputs.cache-hit != 'true'
+        run: yarn install
+      - name: Testing and getting coverage
+        run: yarn test
+  build:
+    name: Build
+    needs: [test]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Node.js environment to ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Caching node_modules
+        id: cache-modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: $${{ matrix.node-version }}-${{ runner.OS }}-build-${{ hashFiles('package.json', 'yarn.lock') }}
+      - name: Installing dependencies
+        if: steps.cache-modules.outputs.cache-hit != 'true'
+        run: yarn install
+      - name: Building
+        run: yarn generate
