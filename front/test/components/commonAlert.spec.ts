@@ -1,6 +1,6 @@
 import { render } from '@testing-library/vue'
-import CommonAlert from '~/components/CommonAlert.vue'
 import { composeStories } from '@storybook/testing-vue3'
+import CommonAlert from '~/components/CommonAlert.vue'
 import * as stories from '~/stories/components/CommonAlert.stories'
 
 const { ComponentWithSlot, ComponentWithCustomMessage } = composeStories(stories)
