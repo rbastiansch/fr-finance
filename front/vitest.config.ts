@@ -14,7 +14,16 @@ export default defineConfig({
     setupFiles: './test/setup.ts',
     coverage: {
       all: true,
-      exclude: ['.nuxt', 'dist', '*.js', '*.ts']
+      exclude: [
+        '.nuxt',
+        '.storybook',
+        'dist',
+        'storybook-static',
+        'stories',
+        'test',
+        '*.js',
+        '*.ts'
+      ]
     },
     typecheck: {
       tsconfig: './test/tsconfig.json'
