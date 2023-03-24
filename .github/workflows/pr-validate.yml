@@ -23,7 +23,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: node_modules
-          key: $${{ matrix.node-version }}-${{ runner.OS }}-build-${{ hashFiles('package.json', 'yarn.lock') }}
+          key: $${{ matrix.node-version }}-${{ runner.OS }}-build-${{ hashFiles('front/package.json', 'front/yarn.lock') }}
       - name: Installing dependencies
         run: yarn install
       - name: Linting
@@ -50,7 +50,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: node_modules
-          key: $${{ matrix.node-version }}-${{ runner.OS }}-build-${{ hashFiles('package.json', 'yarn.lock') }}
+          key: $${{ matrix.node-version }}-${{ runner.OS }}-build-${{ hashFiles('front/package.json', 'front/yarn.lock') }}
       - name: Installing dependencies
         if: steps.cache-modules.outputs.cache-hit != 'true'
         run: yarn install
@@ -78,7 +78,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: node_modules
-          key: $${{ matrix.node-version }}-${{ runner.OS }}-build-${{ hashFiles('package.json', 'yarn.lock') }}
+          key: $${{ matrix.node-version }}-${{ runner.OS }}-build-${{ hashFiles('front/package.json', 'front/yarn.lock') }}
       - name: Installing dependencies
         if: steps.cache-modules.outputs.cache-hit != 'true'
         run: yarn install
