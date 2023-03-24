@@ -12,33 +12,35 @@ export default {
     millisecondsToClose: {
       control: 'number',
       description: 'milliseconds to close alert after it have been open, default is 5000'
+    },
+    'update:modelValue': {
+      action: 'update:modelValue',
+      description: 'emits when is updated input type, default event for v-model directive'
     }
   }
 }
 
 const Template = (args) => ({
   components: { CommonAlert },
+  props: Object.keys(args),
   setup() {
     return {
       args
     }
   },
-  template: `
-    <div>
-      <common-alert v-bind="args" />
-      </div>
-    `
+  template: '<common-alert v-bind="args" v-on="args" />'
 })
 
 const TemplateWithSlot = (args) => ({
   components: { CommonAlert },
+  props: Object.keys(args),
   setup() {
     return {
       args
     }
   },
   template: `
-      <common-alert v-bind="args">
+      <common-alert v-bind="args" v-on="args">
         <p>default slot content</p>
       </common-alert>
     `
