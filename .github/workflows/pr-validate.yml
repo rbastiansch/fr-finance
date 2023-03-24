@@ -58,7 +58,7 @@ jobs:
         run: yarn install
       - name: Prepare nuxt
         run: yarn postinstall
-      - name: Testing and getting coverage
+      - name: Testing
         run: yarn test
   build:
     name: Build
