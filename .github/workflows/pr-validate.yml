@@ -18,15 +18,16 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache-dependency-path: front/yarn.lock
       - name: Caching node_modules
         id: cache-modules
         uses: actions/cache@v3
         with:
-          path: node_modules
+          path: front/node_modules
           key: $${{ matrix.node-version }}-${{ runner.OS }}-build-${{ hashFiles('front/package.json', 'front/yarn.lock') }}
       - name: Installing dependencies
         run: yarn install
+      - name: Prepare nuxt
+        run: yarn postinstall
       - name: Linting
         run: yarn lint
   test:
@@ -46,17 +47,18 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache-dependency-path: front/yarn.lock
       - name: Caching node_modules
         id: cache-modules
         uses: actions/cache@v3
         with:
-          path: node_modules
+          path: front/node_modules
           key: $${{ matrix.node-version }}-${{ runner.OS }}-build-${{ hashFiles('front/package.json', 'front/yarn.lock') }}
       - name: Installing dependencies
         if: steps.cache-modules.outputs.cache-hit != 'true'
         run: yarn install
-      - name: Testing and getting coverage
+      - name: Prepare nuxt
+        run: yarn postinstall
+      - name: Testing
         run: yarn test
   build:
     name: Build
@@ -75,12 +77,11 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache-dependency-path: front/yarn.lock
       - name: Caching node_modules
         id: cache-modules
         uses: actions/cache@v3
         with:
-          path: node_modules
+          path: front/node_modules
           key: $${{ matrix.node-version }}-${{ runner.OS }}-build-${{ hashFiles('front/package.json', 'front/yarn.lock') }}
       - name: Installing dependencies
         if: steps.cache-modules.outputs.cache-hit != 'true'
