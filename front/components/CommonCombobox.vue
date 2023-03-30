@@ -43,7 +43,7 @@ const props = defineProps({
   options: {
     type: Array,
     default: () => []
-  },
+  }
 })
 
 const data = reactive({
