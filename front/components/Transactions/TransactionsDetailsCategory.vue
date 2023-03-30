@@ -7,7 +7,7 @@
       <common-combobox
         v-model="data.name"
         :options="categoriesOptions"
-        @click:option="setCategory"
+        @select-option="setCategory"
       />
       <input
         v-model="data.color"
