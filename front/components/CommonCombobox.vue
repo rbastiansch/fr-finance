@@ -13,14 +13,13 @@
       @keypress="keypress"
     />
     <div
-      v-show="data.showOptions"
+      v-show="showOptions"
       class="absolute max-h-40 bg-white overflow-auto p-1 rounded-md shadow-md"
     >
       <ul role="listbox" aria-labelledby="teste-label" class="divide-solid divide-y p-0">
         <li
           v-for="option in filteredOptions"
           :key="option.value"
-          :value="option.value"
           role="option"
           class="cursor-pointer p-1"
           :class="{ 'bg-gray-50': option.text === data.input }"
@@ -37,13 +36,13 @@
 import { computed, reactive, watch } from 'vue'
 
 const props = defineProps({
-  options: {
-    type: Array,
-    default: () => []
-  },
   modelValue: {
     type: String,
     default: null
+  },
+  options: {
+    type: Array,
+    default: () => []
   }
 })
 
@@ -52,7 +51,7 @@ const data = reactive({
   showOptions: false
 })
 
-const emit = defineEmits(['update:modelValue', 'click:option'])
+const emit = defineEmits(['update:modelValue', 'select-option'])
 
 watch(
   () => props.modelValue,
@@ -91,6 +90,10 @@ const inputHasEqualOption = computed(() =>
   filteredOptions.value.find((option) => option.text === data.input)
 )
 
+const showOptions = computed(() => {
+  return data.showOptions && filteredOptions.value.length
+})
+
 const keypress = (event) => {
   if (!data.showOptions) {
     handleOptions(true)
@@ -105,11 +108,12 @@ const handleOptions = (value) => {
   data.showOptions = value
 
   if (!value && inputHasEqualOption.value) {
-    emit('click:option', inputHasEqualOption.value.text)
+    clickOption(inputHasEqualOption.value.text)
   }
 }
 
 const clickOption = (value) => {
-  emit('click:option', value)
+  data.input = value
+  emit('select-option', value)
 }
 </script>
