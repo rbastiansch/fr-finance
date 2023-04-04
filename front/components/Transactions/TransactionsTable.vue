@@ -5,6 +5,7 @@
         <tr class="border-b py-4">
           <th class="font-normal text-left p-2">Reference</th>
           <th class="font-normal text-left p-2">Category</th>
+          <th class="font-normal text-left p-2">Bank</th>
           <th class="font-normal text-left p-2">Date</th>
           <th class="font-normal text-left p-2">Amount</th>
         </tr>
@@ -24,6 +25,9 @@
               {{ row.category.name }}
             </common-chip>
           </td>
+          <td class="px-2 py-1">
+            {{ row.account.bank }}
+          </td>
           <td class="px-2 py-1">{{ formatDateFromIso(row.date) }}</td>
           <td class="px-2 py-1">
             {{ addDecimal(row.amount) }}
@@ -32,7 +36,7 @@
             </span>
           </td>
         </tr>
-        <common-loading v-show="loading" />
+        <common-loading v-show="loading" data-testid="table-loading" />
       </tbody>
     </table>
   </div>

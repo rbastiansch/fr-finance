@@ -10,7 +10,7 @@
         <h2 class="font-medium mb-1">Account:</h2>
         <p>{{ data.transaction?.account?.name }}</p>
       </div>
-      <div class="py-1 h-20 text-sm border-b border-slate-100">
+      <div v-if="data.category" class="py-1 h-20 text-sm border-b border-slate-100">
         <h2 class="font-medium mb-1">Category:</h2>
         <transactions-details-category :category="data.category" @save="saveCategory" />
         <common-alert v-model="data.alert.show" :alert="data.alert" />

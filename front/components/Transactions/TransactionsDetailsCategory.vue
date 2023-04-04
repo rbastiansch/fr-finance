@@ -56,33 +56,6 @@ onMounted(() => {
   getCategories()
 })
 
-watch(
-  () => props.category,
-  (value) => {
-    const { name, color } = value
-
-    updateCategoryNameAndColor(name, color)
-  }
-)
-
-watch(
-  () => data.name,
-  (value, oldValue) => {
-    if (value && oldValue) {
-      data.changedInput = true
-    }
-  }
-)
-
-watch(
-  () => data.color,
-  (value, oldValue) => {
-    if (value && oldValue) {
-      data.changedInput = true
-    }
-  }
-)
-
 const categoriesOptions = computed(() =>
   data.categories?.map((category) => ({ text: category.name, value: category.id }))
 )
@@ -128,6 +101,34 @@ const resetEditing = async () => {
   await nextTick()
   data.changedInput = false
 }
+
+watch(
+  () => props.category,
+  (value) => {
+    const { name, color } = value
+
+    updateCategoryNameAndColor(name, color)
+  },
+  { immediate: true }
+)
+
+watch(
+  () => data.name,
+  (value, oldValue) => {
+    if (value && oldValue) {
+      data.changedInput = true
+    }
+  }
+)
+
+watch(
+  () => data.color,
+  (value, oldValue) => {
+    if (value && oldValue) {
+      data.changedInput = true
+    }
+  }
+)
 </script>
 
 <style lang="scss" scoped>
