@@ -8,5 +8,5 @@ export const addDecimal = (amount: string): string => {
     minimumFractionDigits: 2
   }
 
-  return new Intl.NumberFormat('en-US', options).format(parseInt(amount))
+  return new Intl.NumberFormat('en', options).format(parseFloat(amount))
 }

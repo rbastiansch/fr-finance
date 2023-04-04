@@ -24,7 +24,7 @@
               {{ row.category.name }}
             </common-chip>
           </td>
-          <td class="px-2 py-1">{{ formatDate(row.date) }}</td>
+          <td class="px-2 py-1">{{ formatDateFromIso(row.date) }}</td>
           <td class="px-2 py-1">
             {{ addDecimal(row.amount) }}
             <span class="text-slate-500">
@@ -39,7 +39,7 @@
 </template>
 
 <script setup>
-import { formatDate } from '~/utils/date.utils'
+import { formatDateFromIso } from '~/utils/date.utils'
 import { addDecimal } from '~/utils/number.utils'
 import { debounce } from '~/utils/debounce.utils'
 

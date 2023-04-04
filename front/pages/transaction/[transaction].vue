@@ -17,7 +17,7 @@
       </div>
       <div class="py-1 h-20 text-sm border-b border-slate-100">
         <h2 class="font-medium mb-1">Date:</h2>
-        <p>{{ formatDate(data.transaction?.date) }}</p>
+        <p>{{ formatDateFromIso(data.transaction?.date) }}</p>
       </div>
       <div class="py-1 h-20 text-sm">
         <h2 class="font-medium mb-1">Amount:</h2>
@@ -36,7 +36,7 @@ import {
   getTransactionRequest,
   updateTransactionCategoryRequest
 } from '~/services/transaction.service'
-import { formatDate } from '~/utils/date.utils'
+import { formatDateFromIso } from '~/utils/date.utils'
 
 const route = useRoute()
 

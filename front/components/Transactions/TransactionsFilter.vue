@@ -28,11 +28,12 @@ watch(
       return
     }
 
-    input(search)
+    input()
   }
 )
 
 const emit = defineEmits(['update:search'])
 
-const input = (search) => debounce(() => emit('update:search', search), 1000)()
+const locallyDebounce = () => debounce(() => emit('update:search', data.search), 1000)
+const input = locallyDebounce()
 </script>
