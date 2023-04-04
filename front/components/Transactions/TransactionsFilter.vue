@@ -1,6 +1,6 @@
 <template>
   <div>
-    <label hidden for="search-field">
+    <label role="label" hidden for="search-field">
       Search by bank, account, reference, category, date, amount, currency
     </label>
     <input
@@ -32,8 +32,8 @@ watch(
   }
 )
 
-const emit = defineEmits(['update:search'])
+const emit = defineEmits(['change-search'])
 
-const locallyDebounce = () => debounce(() => emit('update:search', data.search), 1000)
+const locallyDebounce = () => debounce(() => emit('change-search', data.search), 1000)
 const input = locallyDebounce()
 </script>

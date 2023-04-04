@@ -2,7 +2,7 @@
   <div class="h-full">
     <div class="px-1">
       <common-header>Transactions</common-header>
-      <transactions-filter class="mt-2 mb-5" @update:search="updateSearch" />
+      <transactions-filter class="mt-2 mb-5" @change-search="updateSearch" />
     </div>
     <transactions-table
       :transactions="data.transactions"
