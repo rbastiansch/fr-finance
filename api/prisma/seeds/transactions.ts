@@ -15,7 +15,7 @@ interface TransactionRow {
 const dataCsv: Array<TransactionRow> = []
 function getParsedData() {
   return new Promise((resolve, reject) => {
-    fs.createReadStream('./prisma/seeds/transactions-short.csv')
+    fs.createReadStream('./prisma/seeds/transactions.csv')
       .pipe(parse({ delimiter: ',', from_line: 2 }))
       .on('data', function (row) {
         const [id, accountId, categoryId, reference, amount, currency, date] = row

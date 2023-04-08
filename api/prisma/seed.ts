@@ -1,7 +1,7 @@
-import { accountSeedPromise } from 'Prisma/seeds/accounts'
-import { categorySeedPromise } from 'Prisma/seeds/categories'
+import { accountSeedPromise } from './seeds/accounts'
+import { categorySeedPromise } from './seeds/categories'
 
 // Used to execute all required seeds before run transactions
 Promise.all([accountSeedPromise, categorySeedPromise]).then(() => {
-  import('Prisma/seeds/transactions')
+  import('./seeds/transactions')
 })
