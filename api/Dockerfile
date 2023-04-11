@@ -6,6 +6,7 @@ RUN apk update \
 WORKDIR /usr/app
 
 COPY package*.json ./
+COPY *.lock ./
 COPY .env.local .env
 
 USER root
