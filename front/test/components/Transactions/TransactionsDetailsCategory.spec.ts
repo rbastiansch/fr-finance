@@ -12,9 +12,10 @@ describe('TransactionsDetailsCategory', () => {
     vi.mock('~/services/category.service', () => ({
       default: vi.fn(() => {
         return {
-          getCategoriesRequest: () => Promise.resolve({ data: { categories: [{ name: 'name', id: 'id-1' }] } })
+          getCategoriesRequest: () =>
+            Promise.resolve({ data: { categories: [{ name: 'name', id: 'id-1' }] } })
         }
-      }),
+      })
     }))
   })
 
