@@ -31,7 +31,7 @@ export default class TransactionService extends ApolloService {
       variables
     )
   }
-  
+
   public async getTransactionRequest(variables: TransactionPayload) {
     return await this.apolloQuery(
       `
@@ -57,7 +57,7 @@ export default class TransactionService extends ApolloService {
       variables
     )
   }
-  
+
   public async updateTransactionCategoryRequest(variables: UpdateTransactionCategoryPayload) {
     return await this.apolloMutate(
       `mutation UpdateTransactionCategory($id: ID!, $name: String, $color: String) {
