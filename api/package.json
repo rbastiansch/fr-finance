@@ -4,12 +4,15 @@
   "private": true,
   "scripts": {
     "dev": "node ace serve --watch --node-args=--inspect=0.0.0.0",
-    "build": "node ace build --production",
+    "build": "node ace build --production --ignore-ts-errors",
     "start": "node server.js",
+    "startpm2": "npx pm2 start server.js",
     "lint": "eslint . --ext=.ts",
     "format": "prettier --write .",
     "test": "node ace test --watch",
-    "coverage": "c8 node ace test"
+    "testrun": "node ace test",
+    "coverage": "c8 node ace test",
+    "prepare": "cd .. && npx husky install api/.husky"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
