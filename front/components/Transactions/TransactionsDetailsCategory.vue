@@ -33,7 +33,8 @@
 
 <script setup>
 import { reactive, computed, onMounted, watch, nextTick } from 'vue'
-import { getCategoriesRequest } from '~/services/category.service'
+import CategoryService from '~/services/category.service'
+const categoryService = new CategoryService()
 
 const props = defineProps({
   category: {
@@ -61,7 +62,7 @@ const categoriesOptions = computed(() =>
 )
 
 const getCategories = async () => {
-  const result = await getCategoriesRequest()
+  const result = await categoryService.getCategoriesRequest()
   data.categories = result.data.categories
 }
 

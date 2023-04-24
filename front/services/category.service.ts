@@ -1,11 +1,13 @@
-import { apolloQuery } from '~/services/apollo'
+import ApolloService from '~/services/apollo'
 
-export const getCategoriesRequest = async () => {
-  return await apolloQuery(`query Categories {
-    categories {
-      id
-      name
-      color
-    }
-  }`)
+export default class CategoryService extends ApolloService {
+  public async getCategoriesRequest() {
+    return await this.apolloQuery(`query Categories {
+      categories {
+        id
+        name
+        color
+      }
+    }`)
+  }
 }

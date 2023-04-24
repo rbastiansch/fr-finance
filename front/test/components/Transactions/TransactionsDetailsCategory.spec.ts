@@ -10,8 +10,12 @@ const mockCategory = {
 describe('TransactionsDetailsCategory', () => {
   beforeAll(() => {
     vi.mock('~/services/category.service', () => ({
-      getCategoriesRequest: () =>
-        Promise.resolve({ data: { categories: [{ name: 'name', id: 'id-1' }] } })
+      default: vi.fn(() => {
+        return {
+          getCategoriesRequest: () =>
+            Promise.resolve({ data: { categories: [{ name: 'name', id: 'id-1' }] } })
+        }
+      })
     }))
   })
 
