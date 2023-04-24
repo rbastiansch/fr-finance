@@ -7,5 +7,10 @@ export default defineNuxtConfig({
       tailwindcss: {},
       autoprefixer: {}
     }
+  },
+  runtimeConfig: {
+    public: {
+      apolloApiHost: process.env.NUXT_PUBLIC_APOLLO_API_BASE
+    }
   }
 })

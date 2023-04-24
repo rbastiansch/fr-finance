@@ -32,11 +32,9 @@
 
 <script setup>
 import { onMounted, computed, reactive } from 'vue'
-import {
-  getTransactionRequest,
-  updateTransactionCategoryRequest
-} from '~/services/transaction.service'
 import { formatDateFromIso } from '~/utils/date.utils'
+import TransactionService from '~/services/transaction.service'
+const transactionService = new TransactionService()
 
 const route = useRoute()
 
@@ -58,7 +56,7 @@ onMounted(() => {
 const transactionId = computed(() => route.params?.transaction)
 
 const getTransaction = async () => {
-  const result = await getTransactionRequest({ id: transactionId.value })
+  const result = await transactionService.getTransactionRequest({ id: transactionId.value })
   data.transaction = result.data.transaction
   data.category = result.data.transaction.category
 }
@@ -69,7 +67,7 @@ const saveCategory = async (category) => {
     id: transactionId.value
   }
 
-  const result = await updateTransactionCategoryRequest(payload)
+  const result = await transactionService.updateTransactionCategoryRequest(payload)
   if (result.data) {
     data.alert.message = 'Category saved successfully!'
     data.alert.borderColor = 'green'

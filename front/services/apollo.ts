@@ -1,28 +1,36 @@
 import { ApolloClient, gql, InMemoryCache, OperationVariables } from '@apollo/client/core'
 
-const client = new ApolloClient({
-  uri: 'http://localhost:4000',
-  cache: new InMemoryCache()
-})
+export default class ApolloService {
+  private client
+  constructor() {
+    const config = useRuntimeConfig()
+    const { apolloApiHost } = config.public
 
-export const apolloQuery = async (queryString = '', variables?: OperationVariables) => {
-  return await client
-    .query({
-      query: gql`
-        ${queryString}
-      `,
-      variables
+    this.client = new ApolloClient({
+      uri: apolloApiHost,
+      cache: new InMemoryCache()
     })
-    .then((result) => result)
-}
+  }
 
-export const apolloMutate = async (queryString = '', variables?: OperationVariables) => {
-  return await client
-    .mutate({
-      mutation: gql`
-        ${queryString}
-      `,
-      variables
-    })
-    .then((result) => result)
+  public async apolloQuery(queryString = '', variables?: OperationVariables) {
+    return await this.client
+      .query({
+        query: gql`
+          ${queryString}
+        `,
+        variables
+      })
+      .then((result) => result)
+  }
+
+  public async apolloMutate(queryString = '', variables?: OperationVariables) {
+    return await this.client
+      .mutate({
+        mutation: gql`
+          ${queryString}
+        `,
+        variables
+      })
+      .then((result) => result)
+  }
 }

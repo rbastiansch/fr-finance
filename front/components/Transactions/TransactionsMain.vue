@@ -15,7 +15,8 @@
 
 <script setup>
 import { reactive, onMounted } from 'vue'
-import { getTransactionsRequest } from '~/services/transaction.service'
+import TransactionService from '~/services/transaction.service'
+const transactionService = new TransactionService()
 
 const data = reactive({
   search: '',
@@ -46,7 +47,7 @@ onMounted(() => {
 const getTransactions = async (search) => {
   data.loading = true
   const { currentPage } = data
-  const result = await getTransactionsRequest({ search, page: currentPage })
+  const result = await transactionService.getTransactionsRequest({ search, page: currentPage })
 
   data.transactions = [...(currentPage ? data.transactions : []), ...result.data.transactions]
 
