@@ -42,33 +42,44 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { formatDateFromIso } from '~/utils/date.utils'
 import { addDecimal } from '~/utils/number.utils'
 import { debounce } from '~/utils/debounce.utils'
+import { Transaction } from '~/types'
 
-defineProps({
-  transactions: {
-    type: Array,
-    default: () => []
-  },
-  loading: Boolean
-})
+withDefaults(
+  defineProps<{
+    transactions?: Transaction[]
+    loading?: boolean
+  }>(),
+  {
+    transactions: () => [],
+    loading: false
+  }
+)
 
-const referenceFormat = (reference) => {
+const referenceFormat = (reference: string | undefined) => {
   return reference || 'No reference provided'
 }
 
-const emit = defineEmits(['click-row', 'scroll-bottom'])
-const clickRow = (id) => {
-  if (!window.getSelection().toString()) {
+const emit = defineEmits<{
+  (event: 'click-row', value: string): void
+  (event: 'scroll-bottom'): void
+}>()
+const clickRow = (id: string) => {
+  if (!window.getSelection()?.toString()) {
     emit('click-row', id)
   }
 }
 
-const scroller = (ref) => {
-  const verticalScrollResult = ref.target.scrollHeight - ref.target.scrollTop
-  const heightElement = ref.target.clientHeight
+interface ScrollEvent {
+  target: HTMLInputElement
+}
+
+const scroller = (event: ScrollEvent) => {
+  const verticalScrollResult = event.target.scrollHeight - event.target.scrollTop
+  const heightElement = event.target.clientHeight
 
   if (verticalScrollResult === heightElement) {
     debounce(() => emit('scroll-bottom'), 300)()

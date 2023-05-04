@@ -4,37 +4,36 @@
     :class="customClasses"
   >
     <slot>
-      {{ props.alert.message }}
+      {{ alert.message }}
     </slot>
   </div>
 </template>
 
-<script setup>
-import { reactive, watch, computed } from 'vue'
+<script setup lang="ts">
+import { ref, watch, computed } from 'vue'
+import { Alert } from '~/types'
 
-const props = defineProps({
-  modelValue: Boolean,
-  alert: {
-    type: Object,
-    default: () => ({})
-  },
-  millisecondsToClose: {
-    type: Number,
-    default: 5000
-  }
+interface Props {
+  modelValue: boolean
+  alert?: Alert
+  millisecondsToClose?: number
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  millisecondsToClose: 5000,
+  alert: () => ({ show: false })
 })
+const showAlert = ref(false)
 
-const emit = defineEmits(['update:modelValue'])
-
-const data = reactive({
-  show: false
-})
+const emit = defineEmits<{
+  (event: 'update:modelValue', value: boolean): void
+}>()
 
 const customClasses = computed(() => {
-  const { borderColor } = props.alert
+  const { borderColor } = { ...props.alert }
 
   return {
-    '-translate-y-14': data.show,
+    '-translate-y-14': showAlert,
     [`border-${borderColor}-500`]: borderColor
   }
 })
@@ -42,7 +41,7 @@ const customClasses = computed(() => {
 watch(
   () => props.modelValue,
   (value) => {
-    data.show = value
+    showAlert.value = value
   },
   {
     immediate: true
@@ -51,13 +50,13 @@ watch(
 
 const timerToHide = () => {
   setTimeout(() => {
-    data.show = false
+    showAlert.value = false
     emit('update:modelValue', false)
   }, props.millisecondsToClose)
 }
 
 watch(
-  () => data.show,
+  () => showAlert,
   (value) => {
     if (value) {
       timerToHide()

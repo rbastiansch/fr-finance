@@ -31,34 +31,34 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { reactive, computed, onMounted, watch, nextTick } from 'vue'
+import { Category } from '~/types'
 import CategoryService from '~/services/category.service'
 const categoryService = new CategoryService()
 
-const props = defineProps({
-  category: {
-    type: Object,
-    default: () => {}
-  }
-})
-
-const emit = defineEmits(['save'])
+const props = defineProps<{
+  category: Category
+}>()
 
 const data = reactive({
   isEditingCategory: false,
-  categories: null,
-  name: null,
-  color: null,
+  categories: [] as Category[],
+  name: '',
+  color: '',
   changedInput: false
 })
+
+const emit = defineEmits<{
+  (event: 'save', value: Category): void
+}>()
 
 onMounted(() => {
   getCategories()
 })
 
 const categoriesOptions = computed(() =>
-  data.categories?.map((category) => ({ text: category.name, value: category.id }))
+  data.categories.map((category) => ({ text: category.name, value: category.id }))
 )
 
 const getCategories = async () => {
@@ -73,9 +73,12 @@ const toggleCategoryEditing = () => {
   }
 }
 
-const setCategory = (value) => {
-  const { color } = data.categories.find((category) => category.name === value)
-  updateCategoryNameAndColor(value, color)
+const setCategory = (name: string) => {
+  const category = data.categories.find((category) => category.name === name)
+
+  if (category) {
+    updateCategoryNameAndColor({ name, color: category.color })
+  }
 }
 
 const emitSaveCategory = () => {
@@ -89,7 +92,7 @@ const emitSaveCategory = () => {
   data.isEditingCategory = false
 }
 
-const updateCategoryNameAndColor = (name, color) => {
+const updateCategoryNameAndColor = ({ name, color }: Category) => {
   data.name = name
   data.color = color && color.includes('#') ? color : `#${color}`
 }
@@ -108,7 +111,7 @@ watch(
   (value) => {
     const { name, color } = value
 
-    updateCategoryNameAndColor(name, color)
+    updateCategoryNameAndColor({ name, color })
   },
   { immediate: true }
 )

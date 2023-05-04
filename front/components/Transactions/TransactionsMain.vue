@@ -13,26 +13,27 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { reactive, onMounted } from 'vue'
 import TransactionService from '~/services/transaction.service'
+import { Transaction } from '~/types'
 const transactionService = new TransactionService()
 
 const data = reactive({
   search: '',
-  transactions: [],
+  transactions: [] as Transaction[],
   loading: false,
   currentPage: 0
 })
 
-const updateSearch = (search) => {
+const updateSearch = (search: string) => {
   data.currentPage = 0
   loadTransactions(search)
 }
 
 const router = useRouter()
 
-const loadTransactions = (search, prevSearch) => {
+const loadTransactions = (search: string, prevSearch?: string) => {
   if (search === prevSearch) {
     return
   }
@@ -44,7 +45,7 @@ onMounted(() => {
   getTransactions()
 })
 
-const getTransactions = async (search) => {
+const getTransactions = async (search = '' as string) => {
   data.loading = true
   const { currentPage } = data
   const result = await transactionService.getTransactionsRequest({ search, page: currentPage })
@@ -59,5 +60,5 @@ const scrollBottom = () => {
   loadTransactions(data.search)
 }
 
-const clickRow = (id) => router.push(`/transaction/${id}`)
+const clickRow = (id: string) => router.push(`/transaction/${id}`)
 </script>
