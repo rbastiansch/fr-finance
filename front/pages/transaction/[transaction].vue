@@ -1,6 +1,6 @@
 <template>
   <div>
-    <common-header> Transactions </common-header>
+    <common-header>Transaction</common-header>
     <div class="grid grid-cols-2 py-2">
       <div class="py-1 h-20 text-sm border-b border-slate-100">
         <h2 class="font-medium mb-1">Reference:</h2>
@@ -30,18 +30,24 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { onMounted, computed, reactive } from 'vue'
 import { formatDateFromIso } from '~/utils/date.utils'
 import TransactionService from '~/services/transaction.service'
+import { Alert, Category, Transaction } from '~/types'
 const transactionService = new TransactionService()
 
 const route = useRoute()
 
-const data = reactive({
+interface Data {
+  transaction: Transaction | null
+  category: Category | null
+  alert: Alert
+}
+
+const data: Data = reactive({
   transaction: null,
   category: null,
-  categoryColor: null,
   alert: {
     show: false,
     message: '',
@@ -53,7 +59,7 @@ onMounted(() => {
   getTransaction()
 })
 
-const transactionId = computed(() => route.params?.transaction)
+const transactionId = computed(() => route.params?.transaction as string)
 
 const getTransaction = async () => {
   const result = await transactionService.getTransactionRequest({ id: transactionId.value })
@@ -61,7 +67,7 @@ const getTransaction = async () => {
   data.category = result.data.transaction.category
 }
 
-const saveCategory = async (category) => {
+const saveCategory = async (category: Category) => {
   const payload = {
     ...category,
     id: transactionId.value
@@ -85,7 +91,7 @@ const saveCategory = async (category) => {
 }
 </script>
 
-<script>
+<script lang="ts">
 export default {
   name: 'TransactionDetails'
 }

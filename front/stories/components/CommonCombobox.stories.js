@@ -34,7 +34,7 @@ const Template = (args) => ({
       args
     }
   },
-  template: '<common-combobox v-bind="args" v-on="args" />'
+  template: '<common-combobox v-bind="args" v-on="args" modelValue="" />'
 })
 
 export const WithoutOptions = Template.bind({})

@@ -5,6 +5,6 @@ import utc from 'dayjs/plugin/utc'
 extend(customParseFormat)
 extend(utc)
 
-export const formatDateFromIso = (date: string) => {
+export const formatDateFromIso = (date = '' as string) => {
   return dayjs.utc(date).format('DD/MM/YYYY')
 }

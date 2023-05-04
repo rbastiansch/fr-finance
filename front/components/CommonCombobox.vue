@@ -1,7 +1,7 @@
 <template>
   <div class="inline-block">
     <input
-      v-model="data.input"
+      v-model="input"
       name="common-combobox"
       placeholder="Select or input"
       role="combobox"
@@ -22,7 +22,7 @@
           :key="option.value"
           role="option"
           class="cursor-pointer p-1"
-          :class="{ 'bg-gray-50': option.text === data.input }"
+          :class="{ 'bg-gray-50': option.text === input }"
           @mousedown="clickOption(option.text)"
         >
           {{ option.text }}
@@ -32,31 +32,32 @@
   </div>
 </template>
 
-<script setup>
-import { computed, reactive, watch } from 'vue'
+<script setup lang="ts">
+import { computed, ref, watch } from 'vue'
 
-const props = defineProps({
-  modelValue: {
-    type: String,
-    default: null
-  },
-  options: {
-    type: Array,
-    default: () => []
-  }
-})
+interface Option {
+  text: string
+  value: string
+}
 
-const data = reactive({
-  input: null,
-  showOptions: false
-})
+interface Props {
+  modelValue: string
+  options?: Option[]
+}
 
-const emit = defineEmits(['update:modelValue', 'select-option'])
+const props = defineProps<Props>()
+const canShowOptions = ref(false)
+const input = ref('')
+
+const emit = defineEmits<{
+  (event: 'update:modelValue', value: string): void
+  (event: 'select-option', value: string): void
+}>()
 
 watch(
   () => props.modelValue,
   (value) => {
-    data.input = value
+    input.value = value
   },
   {
     immediate: true
@@ -64,38 +65,39 @@ watch(
 )
 
 watch(
-  () => data.input,
+  () => input.value,
   (value) => {
     emit('update:modelValue', value)
   }
 )
 
-const filteredOptions = computed(() =>
-  props.options.filter((option) => {
-    if (!data.input) {
-      return option
-    }
+const filteredOptions = computed(
+  () =>
+    props.options?.filter((option) => {
+      if (!input.value) {
+        return option
+      }
 
-    const normalizedText = option.text?.toLowerCase()
-    const normalizedInput = data.input?.toLowerCase()
-    if (normalizedText.includes(normalizedInput)) {
-      return option
-    }
+      const normalizedText = option.text?.toLowerCase()
+      const normalizedInput = input.value?.toLowerCase()
+      if (normalizedText.includes(normalizedInput)) {
+        return option
+      }
 
-    return false
-  })
+      return false
+    }) || []
 )
 
 const inputHasEqualOption = computed(() =>
-  filteredOptions.value.find((option) => option.text === data.input)
+  filteredOptions.value.find((option) => option.text === input.value)
 )
 
 const showOptions = computed(() => {
-  return data.showOptions && filteredOptions.value.length
+  return canShowOptions.value && filteredOptions.value.length
 })
 
-const keypress = (event) => {
-  if (!data.showOptions) {
+const keypress = (event: KeyboardEvent) => {
+  if (!canShowOptions.value) {
     handleOptions(true)
   }
 
@@ -104,16 +106,16 @@ const keypress = (event) => {
   }
 }
 
-const handleOptions = (value) => {
-  data.showOptions = value
+const handleOptions = (value: boolean) => {
+  canShowOptions.value = value
 
   if (!value && inputHasEqualOption.value) {
     clickOption(inputHasEqualOption.value.text)
   }
 }
 
-const clickOption = (value) => {
-  data.input = value
+const clickOption = (value: string) => {
+  input.value = value
   emit('select-option', value)
 }
 </script>

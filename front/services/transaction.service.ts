@@ -2,11 +2,16 @@ import ApolloService from '~/services/apollo'
 import {
   TransactionPayload,
   ListTransactionsPayload,
-  UpdateTransactionCategoryPayload
+  UpdateTransactionCategoryPayload,
+  GetTransactionsResponse,
+  GetTransactionResponse,
+  UpdateTransactionCategoryResponse
 } from '~/services/types'
 
 export default class TransactionService extends ApolloService {
-  public async getTransactionsRequest(variables: ListTransactionsPayload) {
+  public async getTransactionsRequest(
+    variables: ListTransactionsPayload
+  ): Promise<GetTransactionsResponse> {
     return await this.apolloQuery(
       `
       query GetTransactions($search: String, $page: Int) {
@@ -32,7 +37,9 @@ export default class TransactionService extends ApolloService {
     )
   }
 
-  public async getTransactionRequest(variables: TransactionPayload) {
+  public async getTransactionRequest(
+    variables: TransactionPayload
+  ): Promise<GetTransactionResponse> {
     return await this.apolloQuery(
       `
       query GetTransactionById($id: ID!) {
@@ -58,7 +65,9 @@ export default class TransactionService extends ApolloService {
     )
   }
 
-  public async updateTransactionCategoryRequest(variables: UpdateTransactionCategoryPayload) {
+  public async updateTransactionCategoryRequest(
+    variables: UpdateTransactionCategoryPayload
+  ): Promise<UpdateTransactionCategoryResponse> {
     return await this.apolloMutate(
       `mutation UpdateTransactionCategory($id: ID!, $name: String, $color: String) {
       updateTransactionCategory(id: $id, name: $name, color: $color) {
