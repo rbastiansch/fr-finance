@@ -1,32 +1,33 @@
 /// <reference types="vitest" />
-import path from 'path'
-import { defineConfig } from 'vitest/config'
+import { fileURLToPath } from 'node:url'
 import vue from '@vitejs/plugin-vue'
+import { defineConfig } from 'vitest/config'
+
+const appDir = fileURLToPath(new URL('./app', import.meta.url))
 
 export default defineConfig({
   plugins: [vue()],
+  resolve: {
+    alias: {
+      '~': appDir,
+      '@': appDir
+    }
+  },
   test: {
     globals: true,
     environment: 'jsdom',
-    alias: {
-      '~': path.resolve(__dirname, './')
-    },
     setupFiles: './test/setup.ts',
     coverage: {
+      provider: 'v8',
       all: true,
+      include: ['app/**/*.{ts,vue}'],
       exclude: [
-        '.nuxt',
-        '.storybook',
-        'dist',
-        'storybook-static',
-        'stories',
-        'test',
-        '*.js',
-        '*.ts'
+        'app/app.vue',
+        'app/pages/**',
+        'app/services/**',
+        '**/*.stories.*',
+        '**/*.d.ts'
       ]
-    },
-    typecheck: {
-      tsconfig: './test/tsconfig.json'
     }
   }
 })

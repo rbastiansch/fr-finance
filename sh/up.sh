@@ -1,4 +1,4 @@
-cd api-updated
+cd api
 docker compose up -d
 
 cd ../front
