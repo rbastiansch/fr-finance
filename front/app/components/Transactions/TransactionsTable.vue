@@ -1,5 +1,12 @@
 <template>
-  <div ref="scroll" class="transactionsTable overflow-x-auto overflow-y-auto" @scroll="scroller">
+  <div
+    ref="scroll"
+    class="transactionsTable overflow-x-auto overflow-y-auto"
+    role="region"
+    aria-label="Transactions table"
+    tabindex="0"
+    @scroll="scroller"
+  >
     <table class="table-auto w-full min-w-[640px]">
       <thead>
         <tr class="border-b py-4">

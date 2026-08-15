@@ -56,6 +56,13 @@ describe('transaction components', () => {
     expect(getByText('-1,545.00')).toBeInTheDocument()
   })
 
+  it('makes the scrollable table keyboard accessible', () => {
+    const { container } = render(TransactionsTable)
+    const table = container.querySelector('.transactionsTable')
+    expect(table).toHaveAttribute('tabindex', '0')
+    expect(table).toHaveAttribute('role', 'region')
+  })
+
   it('renders loading space at the bottom of the table', () => {
     const { getByTestId } = render(TransactionsTable, { props: { loading: true } })
     expect(getByTestId('table-loading')).toBeVisible()
