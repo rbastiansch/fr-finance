@@ -14,4 +14,4 @@ USER root
 # Install the good ol' NPM modules and get Adonis CLI in the game
 RUN yarn --no-optional
 
-CMD yarn dev
+CMD ["sh", "-c", "npx prisma generate && yarn dev"]

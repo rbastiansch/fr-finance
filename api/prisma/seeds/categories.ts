@@ -36,7 +36,8 @@ const prisma = new PrismaClient()
 
 async function main() {
   await prisma.category.createMany({
-    data: dataCsv
+    data: dataCsv,
+    skipDuplicates: true
   })
 }
 

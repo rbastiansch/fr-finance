@@ -52,7 +52,8 @@ async function main() {
   for (const iterator of spliters) {
     const dataChunk = dataCsv.slice(starter, iterator)
     await prisma.transaction.createMany({
-      data: dataChunk
+      data: dataChunk,
+      skipDuplicates: true
     })
     starter = iterator
   }
