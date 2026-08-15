@@ -1,5 +1,5 @@
 import { test } from '@japa/runner'
-import { removeDecimal, parseAmount } from 'Utils/number.utils'
+import { parseAmount, removeDecimal } from '#utils/number'
 
 test('removeDecimal', ({ assert }) => {
   assert.equal(removeDecimal('1000.00'), '1000')
@@ -7,7 +7,7 @@ test('removeDecimal', ({ assert }) => {
 })
 
 test('parseAmount', ({ assert }) => {
-  assert.equal(parseAmount(''), null)
-  assert.equal(parseAmount('any word'), null)
+  assert.isNull(parseAmount(''))
+  assert.isNull(parseAmount('any word'))
   assert.equal(parseAmount('1,000'), 1000)
 })

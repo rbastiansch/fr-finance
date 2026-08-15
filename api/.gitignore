@@ -1,7 +1,29 @@
+# Dependencies and AdonisJS build
 node_modules
 build
-coverage
-.vscode
-.DS_STORE
+tmp/*
+!tmp/.gitkeep
+
+# Secrets
 .env
-tmp
+.env.local
+.env.production.local
+.env.development.local
+.env.prod
+
+# Frontend assets compiled code
+public/assets
+
+# Build tools specific
+npm-debug.log
+yarn-error.log
+
+# Editors specific
+.fleet
+.idea
+.vscode
+
+# Platform specific
+.DS_Store
+
+/generated/prisma
