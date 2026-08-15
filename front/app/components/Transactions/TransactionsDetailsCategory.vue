@@ -9,13 +9,13 @@
         v-model="data.color"
         type="color"
         class="TransactionsDetailsCategory__inputColor appearance-none bg-transparent rounded-md h-7 cursor-pointer ml-2"
-      />
+      >
     </div>
     <button class="p-1 ml-2 cursor-pointer text-slate-500" @click="toggleCategoryEditing">
       <img
         :src="data.isEditingCategory ? '/images/x-circle.svg' : '/images/pencil-square.svg'"
         :alt="data.isEditingCategory ? 'close' : 'edit'"
-      />
+      >
     </button>
     <button
       v-if="data.isEditingCategory && data.changedInput"

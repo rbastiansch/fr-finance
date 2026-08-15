@@ -13,11 +13,16 @@
     "testrun": "vitest run",
     "coverage": "vitest run --coverage",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "prepare": "cd .. && front/node_modules/.bin/lefthook install --reset-hooks-path"
   },
   "dependencies": {
     "@apollo/client": "^3.14.0",
+    "@nuxt/eslint": "1.17.0",
     "dayjs": "^1.11.13",
+    "eslint": "^9.0.0 || ^10.0.0",
     "graphql": "^16.11.0",
     "nuxt": "^4.5.2",
     "vue": "^3.5.41",
@@ -35,6 +40,7 @@
     "@vitest/coverage-v8": "^4.0.16",
     "@vue/compiler-dom": "^3.5.41",
     "jsdom": "^26.1.0",
+    "lefthook": "^2.1.10",
     "postcss": "^8.5.6",
     "rolldown": "^1.2.1",
     "storybook": "^10.5.8",

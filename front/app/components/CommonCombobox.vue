@@ -11,7 +11,7 @@
       @focus="handleOptions(true)"
       @blur="handleOptions(false)"
       @keypress="keypress"
-    />
+    >
     <div
       v-show="showOptions"
       class="absolute max-h-40 bg-white overflow-auto p-1 rounded-md shadow-md"
@@ -52,8 +52,8 @@ const canShowOptions = ref(false)
 const input = ref('')
 
 const emit = defineEmits<{
-  (event: 'update:modelValue', value: string): void
-  (event: 'select-option', value: string): void
+  'update:modelValue': [value: string]
+  'select-option': [value: string]
 }>()
 
 watch(

@@ -1,0 +1,34 @@
+colors: false
+no_tty: true
+output: false
+
+pre-commit:
+  parallel: true
+  commands:
+    frontend-lint:
+      root: front/
+      run: yarn lint
+      env:
+        NO_COLOR: "true"
+      fail_text: Frontend lint failed. Fix the issues before committing.
+
+    frontend-test:
+      root: front/
+      run: yarn testrun
+      env:
+        NO_COLOR: "true"
+      fail_text: Frontend tests failed. Fix the failures before committing.
+
+    api-lint:
+      root: api/
+      run: docker exec fr-api yarn lint
+      env:
+        NO_COLOR: "true"
+      fail_text: API lint failed. Fix the issues before committing.
+
+    api-test:
+      root: api/
+      run: docker exec fr-api yarn test
+      env:
+        NO_COLOR: "true"
+      fail_text: API tests failed. Fix the failures before committing.

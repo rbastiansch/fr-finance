@@ -1,6 +1,0 @@
-#!/usr/bin/env sh
-
-cd "$(dirname "$0")/.."
-
-docker exec fr-api yarn lint
-docker exec fr-api yarn test
