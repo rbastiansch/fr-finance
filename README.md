@@ -14,6 +14,6 @@ It will create api and frontend and run in your machine.
 
 Urls where the project will run:
 frontend: http://localhost:3000
-api: http://localhost:3333
+api: http://localhost:3334
 graphql: http://localhost:4000
-and database on port 5432
+and database on port 5433

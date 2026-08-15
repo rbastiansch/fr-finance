@@ -26,7 +26,7 @@ For Prisma CLI flows and Accelerate-style usage, you may see a `prisma+postgres:
 For Prisma Client with a driver adapter in Node.js, prefer the direct TCP connection string from the Prisma Postgres dashboard:
 
 ```env
-DATABASE_URL="postgres://identifier:key@db.prisma.io:5432/postgres?sslmode=require"
+DATABASE_URL="postgres://identifier:key@db.prisma.io:5433/postgres?sslmode=require"
 ```
 
 ## 1. Schema Configuration

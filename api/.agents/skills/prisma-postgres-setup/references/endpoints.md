@@ -91,8 +91,8 @@ POST /v1/projects
           "endpoints": {
             "direct": {
               "host": "db.prisma.io",
-              "port": 5432,
-              "connectionString": "postgres://user:pass@db.prisma.io:5432/postgres?sslmode=require"
+              "port": 5433,
+              "connectionString": "postgres://user:pass@db.prisma.io:5433/postgres?sslmode=require"
             }
           }
         }
@@ -183,8 +183,8 @@ Creates a new named connection string for a database. Use for per-developer or p
     "endpoints": {
       "direct": {
         "host": "db.prisma.io",
-        "port": 5432,
-        "connectionString": "postgres://user:pass@db.prisma.io:5432/postgres?sslmode=require"
+        "port": 5433,
+        "connectionString": "postgres://user:pass@db.prisma.io:5433/postgres?sslmode=require"
       }
     },
     "database": {

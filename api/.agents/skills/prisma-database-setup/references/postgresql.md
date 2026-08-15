@@ -42,7 +42,7 @@ export default defineConfig({
 In `.env`:
 
 ```env
-DATABASE_URL="postgresql://user:password@localhost:5432/mydb?schema=public"
+DATABASE_URL="postgresql://user:password@localhost:5433/mydb?schema=public"
 ```
 
 ### Connection String Format
@@ -54,7 +54,7 @@ postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=SCHEMA
 - **USER**: Database user
 - **PASSWORD**: Password (URL encoded if special chars)
 - **HOST**: Hostname (localhost, IP, or domain)
-- **PORT**: Port (default 5432)
+- **PORT**: Port (default 5433)
 - **DATABASE**: Database name
 - **SCHEMA**: Schema name (default `public`)
 

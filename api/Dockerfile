@@ -14,6 +14,6 @@ COPY . .
 
 RUN HUSKY=0 yarn --no-optional
 
-EXPOSE 3333 4000 9229
+EXPOSE 3334 4000 9229
 
 CMD ["sh", "-c", "yarn prisma generate && yarn dev"]
