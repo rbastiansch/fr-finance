@@ -1,6 +1,6 @@
 <template>
   <div
-    ref="scroll"
+    ref="scrollEl"
     class="transactionsTable overflow-x-auto overflow-y-auto"
     role="region"
     aria-label="Transactions table"
@@ -18,29 +18,36 @@
         </tr>
       </thead>
       <tbody class="relative text-sm">
+        <tr v-if="startSpacerSize > 0" aria-hidden="true">
+          <td colspan="5" :style="{ height: `${startSpacerSize}px` }" />
+        </tr>
         <tr
-          v-for="row in transactions"
-          :key="row.id"
+          v-for="view in pool"
+          :key="view.id"
+          v-dynamic-scroller-item="{ view }"
           class="border-b h-14 cursor-pointer"
-          @click="clickRow(row.id)"
+          @click="clickRow(view.item.id)"
         >
-          <td class="px-2 py-1" :class="{ 'text-slate-500': !row.reference }">
-            {{ referenceFormat(row.reference) }}
+          <td class="px-2 py-1" :class="{ 'text-slate-500': !view.item.reference }">
+            {{ referenceFormat(view.item.reference) }}
           </td>
           <td class="px-2 py-1">
-            <CommonChip :background-color="`#${row.category.color}`">
-              {{ row.category.name }}
+            <CommonChip :background-color="`#${view.item.category.color}`">
+              {{ view.item.category.name }}
             </CommonChip>
           </td>
-          <td class="px-2 py-1">{{ row.account.bank }}</td>
-          <td class="px-2 py-1">{{ formatDateFromIso(row.date) }}</td>
+          <td class="px-2 py-1">{{ view.item.account.bank }}</td>
+          <td class="px-2 py-1">{{ formatDateFromIso(view.item.date) }}</td>
           <td class="px-2 py-1">
-            {{ addDecimal(row.amount) }}
-            <span class="text-slate-500">{{ row.currency }}</span>
+            {{ addDecimal(view.item.amount) }}
+            <span class="text-slate-500">{{ view.item.currency }}</span>
           </td>
         </tr>
+        <tr v-if="endSpacerSize > 0" aria-hidden="true">
+          <td colspan="5" :style="{ height: `${endSpacerSize}px` }" />
+        </tr>
         <tr v-show="loading" data-testid="table-loading">
-          <td colspan="5" class="py-4">
+          <td colspan="5" class="py-8">
             <div class="relative h-16 w-full">
               <CommonLoading />
             </div>
@@ -58,14 +65,34 @@ import { debounce } from '~/utils/debounce.utils'
 import { formatDateFromIso } from '~/utils/date.utils'
 import { addDecimal } from '~/utils/number.utils'
 import type { Transaction } from '~/types'
+import { useDynamicScroller } from 'vue-virtual-scroller'
+import { computed, useTemplateRef } from 'vue'
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     transactions?: Transaction[]
     loading?: boolean
   }>(),
   { transactions: () => [], loading: false }
 )
+
+const scrollerEl = useTemplateRef<HTMLElement>('scrollEl')
+
+const {
+  pool,
+  startSpacerSize,
+  endSpacerSize,
+  vDynamicScrollerItem,
+} = useDynamicScroller(computed(() => ({
+  items: props.transactions,
+  keyField: 'id' as const,
+  direction: 'vertical' as const,
+  minItemSize: 48,
+  buffer: 1000,
+  prerender: 1,
+  el: scrollerEl.value ?? undefined,
+  flowMode: true,
+})))
 
 const referenceFormat = (reference?: string) => reference || 'No reference provided'
 

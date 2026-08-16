@@ -35,7 +35,7 @@ export function transaction(_parent: unknown, args: TransactionArgs) {
 
 export function transactions(_parent: unknown, args: ListTransactionsArgs) {
   const search = args.search ?? undefined
-  const take = 20
+  const take = 100
   const page = Number.isFinite(args.page) && (args.page ?? 0) > 0 ? Number(args.page) : 0
   const skip = page * take
 

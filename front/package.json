@@ -26,7 +26,8 @@
     "graphql": "^16.11.0",
     "nuxt": "^4.5.2",
     "vue": "^3.5.41",
-    "vue-router": "^5.2.0"
+    "vue-router": "^5.2.0",
+    "vue-virtual-scroller": "^3.0.5"
   },
   "devDependencies": {
     "@storybook/addon-links": "^10.5.8",
