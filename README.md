@@ -13,7 +13,7 @@ If you did already run this command before, you simple run:
 It will create api and frontend and run in your machine.
 
 Urls where the project will run:
-frontend: http://localhost:3000
+frontend: http://localhost:3001
 api: http://localhost:3334
 graphql: http://localhost:4000
 and database on port 5433

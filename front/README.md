@@ -15,7 +15,7 @@ Copy `.env.example` to `.env.local` and set the Apollo API endpoint before start
 
 ## Development Server
 
-Start the development server on `http://localhost:3000`:
+Start the development server on `http://localhost:3001`:
 
 ```bash
 # yarn
