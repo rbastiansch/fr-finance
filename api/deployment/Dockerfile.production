@@ -1,0 +1,37 @@
+FROM node:24-alpine AS build
+
+RUN apk add --no-cache openssl python3 make g++
+
+WORKDIR /usr/app
+
+COPY package.json yarn.lock prisma.config.ts ./
+COPY prisma ./prisma
+
+RUN yarn install --frozen-lockfile
+
+COPY . .
+
+RUN yarn prisma generate
+RUN yarn build
+
+# Install the runtime dependencies alongside the compiled application.
+RUN cp yarn.lock build/yarn.lock \
+  && cd build \
+  && yarn install --production --frozen-lockfile
+
+FROM node:24-alpine
+
+RUN apk add --no-cache libstdc++ openssl
+
+WORKDIR /usr/app
+
+ENV NODE_ENV=production
+
+WORKDIR /usr/app/build
+
+COPY --from=build /usr/app/build ./
+COPY --from=build /usr/app/prisma/schema.prisma ./prisma/schema.prisma
+
+EXPOSE 3334 4000
+
+CMD ["node", "bin/server.js"]
