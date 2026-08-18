@@ -1,0 +1,3 @@
+{$GRAPHQL_HOSTNAME} {
+    reverse_proxy fr-api:4000
+}
