@@ -11,7 +11,9 @@ RUN yarn install --frozen-lockfile
 
 COPY . .
 
-RUN yarn prisma generate
+# Prisma generate loads the config but does not connect to the database.
+RUN DATABASE_URL=postgresql://build:build@localhost:5432/build?schema=public \
+  yarn prisma generate
 RUN yarn build
 
 # Install the runtime dependencies alongside the compiled application.
