@@ -8,13 +8,14 @@
     @scroll="scroller"
   >
     <table class="table-auto w-full min-w-[640px]">
+      <caption class="sr-only">Transactions</caption>
       <thead>
         <tr class="border-b py-4">
-          <th class="font-normal text-left p-2">Reference</th>
-          <th class="font-normal text-left p-2">Category</th>
-          <th class="font-normal text-left p-2">Bank</th>
-          <th class="font-normal text-left p-2">Date</th>
-          <th class="font-normal text-left p-2">Amount</th>
+          <th scope="col" class="font-normal text-left p-2">Reference</th>
+          <th scope="col" class="font-normal text-left p-2">Category</th>
+          <th scope="col" class="font-normal text-left p-2">Bank</th>
+          <th scope="col" class="font-normal text-left p-2">Date</th>
+          <th scope="col" class="font-normal text-left p-2">Amount</th>
         </tr>
       </thead>
       <tbody class="relative text-sm">
@@ -26,7 +27,12 @@
           :key="view.id"
           v-dynamic-scroller-item="{ view }"
           class="border-b h-14 cursor-pointer"
+          role="button"
+          tabindex="0"
+          :aria-label="transactionRowLabel(view.item)"
           @click="clickRow(view.item.id)"
+          @keydown.enter.prevent="clickRow(view.item.id)"
+          @keydown.space.prevent="clickRow(view.item.id)"
         >
           <td class="px-2 py-1" :class="{ 'text-slate-500': !view.item.reference }">
             {{ referenceFormat(view.item.reference) }}
@@ -95,6 +101,14 @@ const {
 })))
 
 const referenceFormat = (reference?: string) => reference || 'No reference provided'
+
+const transactionRowLabel = (transaction: Transaction) => [
+  `Reference: ${referenceFormat(transaction.reference)}`,
+  `Category: ${transaction.category.name}`,
+  `Bank: ${transaction.account.bank}`,
+  `Date: ${formatDateFromIso(transaction.date)}`,
+  `Amount: ${addDecimal(transaction.amount)} ${transaction.currency}`,
+].join(', ')
 
 const emit = defineEmits<{
   (event: 'click-row', value: string): void

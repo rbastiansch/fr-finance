@@ -5,21 +5,31 @@
     </CommonChip>
     <div v-else class="inline-flex items-center">
       <CommonCombobox v-model="data.name" :options="categoriesOptions" @select-option="setCategory" />
+      <label :for="colorInputId" class="sr-only">Category color</label>
       <input
+        :id="colorInputId"
         v-model="data.color"
         type="color"
-        class="TransactionsDetailsCategory__inputColor appearance-none bg-transparent rounded-md h-7 cursor-pointer ml-2"
+        class="TransactionsDetailsCategory__inputColor appearance-none bg-transparent rounded-md h-7 cursor-pointer ml-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-500"
       >
     </div>
-    <button class="p-1 ml-2 cursor-pointer text-slate-500" @click="toggleCategoryEditing">
+    <button
+      type="button"
+      class="p-1 ml-2 cursor-pointer text-slate-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-500"
+      :aria-label="data.isEditingCategory ? 'Cancel category editing' : 'Edit category'"
+      :aria-pressed="data.isEditingCategory"
+      @click="toggleCategoryEditing"
+    >
       <img
         :src="data.isEditingCategory ? '/images/x-circle.svg' : '/images/pencil-square.svg'"
-        :alt="data.isEditingCategory ? 'close' : 'edit'"
+        alt=""
+        aria-hidden="true"
       >
     </button>
     <button
       v-if="data.isEditingCategory && data.changedInput"
-      class="px-2 ml-2 cursor-pointer text-white bg-green-500 rounded-md"
+      type="button"
+      class="px-2 ml-2 cursor-pointer text-white bg-green-700 rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-800"
       @click="emitSaveCategory"
     >
       Save
@@ -28,13 +38,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, onMounted, reactive, watch } from 'vue'
+import { computed, nextTick, onMounted, reactive, useId, watch } from 'vue'
 import CategoryService from '~/services/category.service'
 import type { Category } from '~/types'
 
 const props = defineProps<{ category: Category }>()
 const emit = defineEmits<{ (event: 'save', value: Category): void }>()
 const categoryService = new CategoryService()
+const colorInputId = useId()
 const data = reactive({
   isEditingCategory: false,
   categories: [] as Category[],
