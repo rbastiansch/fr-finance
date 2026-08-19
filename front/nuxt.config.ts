@@ -1,16 +1,34 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  compatibilityDate: '2025-07-15',
   ssr: false,
-  css: ['@/assets/css/main.css'],
-  postcss: {
-    plugins: {
-      tailwindcss: {},
-      autoprefixer: {}
+  devtools: { enabled: true },
+  devServer: {
+    port: 3001
+  },
+
+  app: {
+    head: {
+      htmlAttrs: {
+        lang: 'en'
+      },
+      title: 'Fr Finance'
     }
   },
+
+  css: ['~/assets/css/main.css'],
+
+  postcss: {
+    plugins: {
+      '@tailwindcss/postcss': {}
+    }
+  },
+
   runtimeConfig: {
     public: {
-      apolloApiHost: process.env.NUXT_PUBLIC_APOLLO_API_BASE
+      apolloApiHost: 'http://localhost:4000'
     }
-  }
+  },
+
+  modules: ['@nuxt/eslint']
 })

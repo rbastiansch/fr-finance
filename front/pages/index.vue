@@ -1,3 +1,0 @@
-<template>
-  <transactions-main />
-</template>

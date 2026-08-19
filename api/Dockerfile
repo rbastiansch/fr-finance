@@ -1,17 +1,19 @@
-FROM node:16-alpine3.17
+FROM node:24-alpine
 
-RUN apk update \
-  && apk add openssl1.1-compat
+RUN apk add --no-cache openssl python3 make g++
 
 WORKDIR /usr/app
 
-COPY package*.json ./
-COPY *.lock ./
-COPY .env.local .env
+COPY package.json yarn.lock ./
+COPY prisma.config.ts ./
+COPY prisma ./prisma
 
-USER root
+# RUN corepack enable && yarn install --frozen-lockfile
 
-# Install the good ol' NPM modules and get Adonis CLI in the game
-RUN yarn --no-optional
+COPY . .
 
-CMD yarn dev
+RUN HUSKY=0 yarn --no-optional
+
+EXPOSE 3334 4000 9229
+
+CMD ["sh", "-c", "yarn prisma generate && yarn dev"]

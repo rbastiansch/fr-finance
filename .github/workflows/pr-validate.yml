@@ -12,20 +12,20 @@ jobs:
         working-directory: front
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [22.x]
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup Node.js environment to ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
       - name: Caching node_modules
         id: cache-modules
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: front/node_modules
-          key: $${{ matrix.node-version }}-${{ runner.OS }}-build-${{ hashFiles('front/package.json', 'front/yarn.lock') }}
+          key: ${{ matrix.node-version }}-${{ runner.OS }}-build-${{ hashFiles('front/package.json', 'front/yarn.lock') }}
       - name: Installing dependencies
         run: yarn install
       - name: Prepare nuxt
@@ -41,20 +41,20 @@ jobs:
         working-directory: front
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [22.x]
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup Node.js environment to ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
       - name: Caching node_modules
         id: cache-modules
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: front/node_modules
-          key: $${{ matrix.node-version }}-${{ runner.OS }}-build-${{ hashFiles('front/package.json', 'front/yarn.lock') }}
+          key: ${{ matrix.node-version }}-${{ runner.OS }}-build-${{ hashFiles('front/package.json', 'front/yarn.lock') }}
       - name: Installing dependencies
         if: steps.cache-modules.outputs.cache-hit != 'true'
         run: yarn install
@@ -71,20 +71,20 @@ jobs:
         working-directory: front
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [22.x]
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup Node.js environment to ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
       - name: Caching node_modules
         id: cache-modules
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: front/node_modules
-          key: $${{ matrix.node-version }}-${{ runner.OS }}-build-${{ hashFiles('front/package.json', 'front/yarn.lock') }}
+          key: ${{ matrix.node-version }}-${{ runner.OS }}-build-${{ hashFiles('front/package.json', 'front/yarn.lock') }}
       - name: Installing dependencies
         if: steps.cache-modules.outputs.cache-hit != 'true'
         run: yarn install

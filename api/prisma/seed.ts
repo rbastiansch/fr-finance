@@ -1,7 +1,19 @@
-import { accountSeedPromise } from './seeds/accounts'
-import { categorySeedPromise } from './seeds/categories'
+import { disconnectPrisma } from '#services/prisma'
+import { seedAccounts } from './seeds/accounts.ts'
+import { seedCategories } from './seeds/categories.ts'
+import { seedTransactions } from './seeds/transactions.ts'
 
-// Used to execute all required seeds before run transactions
-Promise.all([accountSeedPromise, categorySeedPromise]).then(() => {
-  import('./seeds/transactions')
-})
+async function main() {
+  await seedAccounts()
+  await seedCategories()
+  await seedTransactions()
+}
+
+try {
+  await main()
+} catch (error) {
+  console.error(error)
+  process.exitCode = 1
+} finally {
+  await disconnectPrisma()
+}

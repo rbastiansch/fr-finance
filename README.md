@@ -1,4 +1,4 @@
-[Access project here](http://dkgppp1wfiwl5.cloudfront.net)
+Access project here [fr-finance.rbastiansch.dev](https://fr-finance.rbastiansch.dev)
 
 
 *Tools needed to run the project: docker, node > 16 and yarn*
@@ -13,7 +13,7 @@ If you did already run this command before, you simple run:
 It will create api and frontend and run in your machine.
 
 Urls where the project will run:
-frontend: http://localhost:3000
-api: http://localhost:3333
+frontend: http://localhost:3001
+api: http://localhost:3334
 graphql: http://localhost:4000
-and database on port 5432
+and database on port 5433

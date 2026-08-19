@@ -1,8 +1,7 @@
 cd api
-cp .env.local .env
-docker-compose up -d
-docker exec -it fr-api npx prisma db push
-docker exec -it fr-api npx prisma db seed
+docker compose up -d --build --force-recreate
+docker exec -it fr-api yarn prisma db push
+docker exec -it fr-api yarn prisma db seed
 
 cd ../front
 cp .env.local .env

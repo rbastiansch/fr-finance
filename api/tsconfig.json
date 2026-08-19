@@ -1,19 +1,8 @@
 {
-  "extends": "adonis-preset-ts/tsconfig.json",
-  "include": ["**/*"],
-  "exclude": ["node_modules", "build"],
+  "extends": "@adonisjs/tsconfig/tsconfig.app.json",
   "compilerOptions": {
-    "outDir": "build",
     "rootDir": "./",
-    "sourceMap": true,
-    "paths": {
-      "App/*": ["./app/*"],
-      "Config/*": ["./config/*"],
-      "Contracts/*": ["./contracts/*"],
-      "Database/*": ["./database/*"],
-      "Prisma/*": ["./prisma/*"],
-      "Utils/*": ["./utils/*"]
-    },
-    "types": ["@adonisjs/core", "@adonisjs/repl", "@japa/preset-adonis/build/adonis-typings"]
+    "jsx": "react",
+    "outDir": "./build"
   }
 }
