@@ -5,6 +5,7 @@
     role="region"
     aria-label="Transactions table"
     tabindex="0"
+    :style="tableHeight === undefined ? undefined : { height: `${tableHeight}px` }"
     @scroll="scroller"
   >
     <table class="table-auto w-full min-w-[640px]">
@@ -78,8 +79,9 @@ const props = withDefaults(
   defineProps<{
     transactions?: Transaction[]
     loading?: boolean
+    tableHeight?: number
   }>(),
-  { transactions: () => [], loading: false }
+  { transactions: () => [], loading: false, tableHeight: undefined }
 )
 
 const scrollerEl = useTemplateRef<HTMLElement>('scrollEl')
@@ -115,14 +117,23 @@ const emit = defineEmits<{
   (event: 'scroll-bottom'): void
 }>()
 
+const emitScrollBottom = debounce(() => emit('scroll-bottom'), 300)
+
 const clickRow = (id: string) => {
   if (!window.getSelection()?.toString()) emit('click-row', id)
 }
 
+const scrollToTop = () => {
+  if (scrollerEl.value) scrollerEl.value.scrollTop = 0
+}
+
+defineExpose({ scrollToTop })
+
 const scroller = (event: Event) => {
   const target = event.target as HTMLElement
-  if (target.scrollHeight - target.scrollTop <= target.clientHeight) {
-    debounce(() => emit('scroll-bottom'), 300)()
+  const distanceFromBottom = target.scrollHeight - target.scrollTop - target.clientHeight
+  if (distanceFromBottom <= 48) {
+    emitScrollBottom()
   }
 }
 </script>

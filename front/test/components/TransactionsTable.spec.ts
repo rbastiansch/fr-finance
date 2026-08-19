@@ -1,5 +1,5 @@
 import { render, fireEvent } from '@testing-library/vue'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import TransactionsTable from '~/components/Transactions/TransactionsTable.vue'
 import { createTransaction } from '../helpers/fixtures'
 
@@ -32,6 +32,28 @@ describe('TransactionsTable', () => {
 
     expect(table).toHaveAttribute('tabindex', '0')
     expect(table).toHaveAttribute('role', 'region')
+  })
+
+  it('loads more transactions when scrolled near the bottom', async () => {
+    vi.useFakeTimers()
+    try {
+      const { container, emitted } = render(TransactionsTable)
+      const table = container.querySelector('.transactionsTable')
+
+      if (!table) throw new Error('Transactions table not found')
+      Object.defineProperties(table, {
+        clientHeight: { configurable: true, value: 500 },
+        scrollHeight: { configurable: true, value: 1000 },
+        scrollTop: { configurable: true, value: 452 }
+      })
+
+      await fireEvent.scroll(table)
+      vi.advanceTimersByTime(300)
+
+      expect(emitted('scroll-bottom')).toEqual([[]])
+    } finally {
+      vi.useRealTimers()
+    }
   })
 
   it('renders loading space at the bottom of the table', () => {
