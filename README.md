@@ -1,4 +1,4 @@
-[Access project here](http://dkgppp1wfiwl5.cloudfront.net)
+Access project here [fr-finance.rbastiansch.dev](https://fr-finance.rbastiansch.dev)
 
 
 *Tools needed to run the project: docker, node > 16 and yarn*

@@ -33,6 +33,7 @@ WORKDIR /usr/app/build
 
 COPY --from=build /usr/app/build ./
 COPY --from=build /usr/app/prisma/schema.prisma ./prisma/schema.prisma
+COPY --from=build /usr/app/prisma/seeds/*.csv ./prisma/seeds/
 
 EXPOSE 3334 4000
 
