@@ -28,14 +28,14 @@ services:
 
   fr-db:
     image: postgres:16-alpine
-    container_name: fr-db-updated
+    container_name: fr-db
     restart: unless-stopped
     environment:
       POSTGRES_PASSWORD: pass
       POSTGRES_USER: user
       POSTGRES_DB: postgres
     volumes:
-      - fr-db-updated:/var/lib/postgresql/data
+      - fr-db:/var/lib/postgresql/data
     ports:
       - '5433:5432'
     healthcheck:
@@ -50,4 +50,4 @@ networks:
   webnet:
 
 volumes:
-  fr-db-updated:
+  fr-db:
