@@ -29,6 +29,10 @@
     "vue-router": "^5.2.0",
     "vue-virtual-scroller": "^3.0.5"
   },
+  "resolutions": {
+    "simple-git": "4.0.1",
+    "@simple-git/argv-parser": "2.0.1"
+  },
   "devDependencies": {
     "@storybook/addon-links": "^10.5.8",
     "@storybook/vue3-vite": "^10.5.8",

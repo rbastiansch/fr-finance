@@ -59,6 +59,10 @@
     "typescript": "~6.0.3",
     "youch": "^4.1.1"
   },
+  "resolutions": {
+    "deepmerge-ts": "8.0.0",
+    "mysql2": "3.22.0"
+  },
   "dependencies": {
     "@adonisjs/auth": "^10.1.0",
     "@adonisjs/core": "^7.4.0",
