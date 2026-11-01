@@ -9,7 +9,9 @@ import { describe, expect, it } from 'vitest'
  * GHSA-g4wm-2vf7-vfgr, GHSA-g2v6-rqmx-r4w6, GHSA-qhr7-859c-m2p7,
  * GHSA-6j4f-fj2g-mc7p, GHSA-j22f-vq7h-c4qm, GHSA-2883-xcg3-v3hh,
  * GHSA-587h-7wmj-h5pm, GHSA-wp97-x4hv-qvhp, GHSA-pqg4-j6r4-53mv,
- * GHSA-68fv-2mgg-jv7q, GHSA-vp8m-p9jh-q5pm.
+ * GHSA-68fv-2mgg-jv7q, GHSA-vp8m-p9jh-q5pm, GHSA-8hrf-8g6f-7xwp,
+ * GHSA-hqq3-7jhf-c5jx, GHSA-jc66-7q78-782g, GHSA-7wch-p9px-956x,
+ * GHSA-5x38-2vff-x55p.
  */
 const minimumVersions: Record<string, string> = {
   'simple-git': '4.0.1',
@@ -23,6 +25,7 @@ const minimumVersions: Record<string, string> = {
   'shell-quote': '1.11.0',
   'source-map-js': '1.2.2',
   undici: '8.10.2',
+  'node-forge': '1.4.1',
 }
 
 function isAtLeast(installed: string, minimum: string): boolean {
