@@ -6,13 +6,14 @@ import { test } from '@japa/runner'
  * Regression guard for security advisories in API dependencies.
  * Each entry maps a package to the first patched version that must be installed.
  * See GHSA-jqcg-44mw-7w3h, GHSA-qhr7-859c-m2p7, GHSA-6j4f-fj2g-mc7p,
- * GHSA-ggr8-5vv4-36mx, GHSA-3f6p-5ww8-9rcr.
+ * GHSA-ggr8-5vv4-36mx, GHSA-3f6p-5ww8-9rcr, GHSA-7589-6fvf-x4pw.
  */
 const minimumVersions: Array<[string, string]> = [
   ['proxy-addr', '2.0.8'],
   ['brace-expansion', '5.0.11'],
   ['deepmerge-ts', '8.0.0'],
   ['mysql2', '3.22.0'],
+  ['effect', '3.22.1'],
 ]
 
 function isAtLeast(installed: string, minimum: string): boolean {
