@@ -61,7 +61,9 @@
   },
   "resolutions": {
     "deepmerge-ts": "8.0.0",
-    "mysql2": "3.22.0"
+    "mysql2": "3.22.0",
+    "effect": "3.22.1",
+    "@graphql-tools/utils": "12.1.0"
   },
   "dependencies": {
     "@adonisjs/auth": "^10.1.0",
@@ -70,7 +72,7 @@
     "@adonisjs/lucid": "^22.4.2",
     "@adonisjs/session": "^8.1.0",
     "@adonisjs/shield": "^9.0.0",
-    "@apollo/server": "^4.12.2",
+    "@apollo/server": "^5.5.2",
     "@japa/api-client": "^3.2.1",
     "@prisma/adapter-pg": "^7.9.1",
     "@prisma/client": "^7.9.1",
