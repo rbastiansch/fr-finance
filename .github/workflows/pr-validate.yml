@@ -27,7 +27,7 @@ jobs:
           path: front/node_modules
           key: ${{ matrix.node-version }}-${{ runner.OS }}-build-${{ hashFiles('front/package.json', 'front/yarn.lock') }}
       - name: Installing dependencies
-        run: yarn install
+        run: yarn install --frozen-lockfile
       - name: Prepare nuxt
         run: yarn postinstall
       - name: Linting
@@ -57,11 +57,11 @@ jobs:
           key: ${{ matrix.node-version }}-${{ runner.OS }}-build-${{ hashFiles('front/package.json', 'front/yarn.lock') }}
       - name: Installing dependencies
         if: steps.cache-modules.outputs.cache-hit != 'true'
-        run: yarn install
+        run: yarn install --frozen-lockfile
       - name: Prepare nuxt
         run: yarn postinstall
       - name: Testing
-        run: yarn test
+        run: yarn testrun
   build:
     name: Build
     needs: [test]
@@ -87,6 +87,6 @@ jobs:
           key: ${{ matrix.node-version }}-${{ runner.OS }}-build-${{ hashFiles('front/package.json', 'front/yarn.lock') }}
       - name: Installing dependencies
         if: steps.cache-modules.outputs.cache-hit != 'true'
-        run: yarn install
+        run: yarn install --frozen-lockfile
       - name: Building
         run: yarn generate
