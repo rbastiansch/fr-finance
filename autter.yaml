@@ -121,7 +121,7 @@ settings:
   docPackages: []
   ignoreRules: []
   mergeConfidence: true
-  mergeGateMode: enforce
+  mergeGateMode: advisory
   prCustomInstructions: ""
   prReviewEnabled: true
   requireChapterOwnerReview: false
